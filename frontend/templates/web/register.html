@@ -1,0 +1,242 @@
+{% extends 'web/base.html' %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto mt-24 mb-16 relative z-10">
+    <div class="glass p-8 md:p-12 rounded-3xl border border-accent-blue/20 shadow-[0_0_50px_rgba(0,0,0,0.5)]"
+        data-aos="fade-up" data-aos-duration="1000">
+        <h2
+            class="text-3xl md:text-4xl text-center text-accent-blue font-bold mb-8 uppercase tracking-wide text-glow-blue">
+            Registration Form</h2>
+
+        {% if messages %}
+        <div class="mb-8 space-y-4">
+            {% for message in messages %}
+            <div
+                class="p-4 bg-accent-pink/20 border border-accent-pink rounded-lg text-white flex items-center gap-3 shadow-[0_0_15px_rgba(217,70,239,0.2)]">
+                <i class="ri-information-line text-xl"></i>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data" id="regForm" class="space-y-8">
+            {% csrf_token %}
+
+            <!-- Project Details -->
+            <div class="space-y-6">
+                <h3 class="text-xl text-gray-300 border-b border-white/10 pb-2 font-semibold">Project Details</h3>
+
+                <div class="space-y-2">
+                    <label class="block text-accent-blue font-semibold ml-1">Project Title *</label>
+                    <input type="text" name="project_title" required placeholder="Unique Project Title"
+                        class="w-full px-5 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-accent-pink focus:ring-1 focus:ring-accent-pink focus:shadow-[0_0_15px_rgba(217,70,239,0.3)] transition-all duration-300">
+                </div>
+
+                <!-- College Details -->
+                <div class="space-y-2">
+                    <label class="block text-accent-blue font-semibold ml-1">College Name *</label>
+                    <div class="relative">
+                        <select name="college_selection" id="collegeSelect" onchange="toggleCollegeInput()"
+                            class="w-full px-5 py-3 bg-white/5 border border-white/20 rounded-xl text-white focus:outline-none focus:border-accent-pink focus:ring-1 focus:ring-accent-pink appearance-none cursor-pointer transition-all duration-300">
+                            <option value="NRCM" class="bg-bg-secondary text-white">Narsimha Reddy Engineering College
+                                (NRCM)</option>
+                            <option value="OTHER" class="bg-bg-secondary text-white">Other</option>
+                        </select>
+                        <div
+                            class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-accent-blue">
+                            <i class="ri-arrow-down-s-line"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="otherCollegeGroup" class="hidden space-y-2 animate-fade-in">
+                    <label class="block text-accent-blue font-semibold ml-1">Enter College Name *</label>
+                    <input type="text" name="college_name_other" placeholder="Full College Name"
+                        class="w-full px-5 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-accent-pink focus:ring-1 focus:ring-accent-pink transition-all duration-300">
+                </div>
+            </div>
+
+            <!-- Team Details -->
+            <div class="space-y-6">
+                <h3 class="text-xl text-gray-300 border-b border-white/10 pb-2 font-semibold pt-4">Team Details (Size:
+                    2-6)</h3>
+
+                <div class="space-y-2">
+                    <label class="block text-accent-blue font-semibold ml-1">Team Size *</label>
+                    <div class="relative">
+                        <select name="team_size" id="teamSize" onchange="generateTeamMembers()"
+                            class="w-full px-5 py-3 bg-white/5 border border-white/20 rounded-xl text-white focus:outline-none focus:border-accent-pink focus:ring-1 focus:ring-accent-pink appearance-none cursor-pointer transition-all duration-300">
+                            <option value="2" class="bg-bg-secondary">2 Members</option>
+                            <option value="3" class="bg-bg-secondary">3 Members</option>
+                            <option value="4" class="bg-bg-secondary">4 Members</option>
+                            <option value="5" class="bg-bg-secondary">5 Members</option>
+                            <option value="6" class="bg-bg-secondary">6 Members</option>
+                        </select>
+                        <div
+                            class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-accent-blue">
+                            <i class="ri-arrow-down-s-line"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="teamMembersContainer" class="space-y-4">
+                    <!-- Dynamic members injected here -->
+                </div>
+            </div>
+
+            <!-- Payment & Documents -->
+            <div class="space-y-6">
+                <h3 class="text-xl text-gray-300 border-b border-white/10 pb-2 font-semibold pt-4">Payment & Documents
+                </h3>
+
+                <div id="paymentSection" class="space-y-6 hidden">
+                    <div class="space-y-2">
+                        <label class="block text-accent-blue font-semibold ml-1">Transaction ID (UTR) *</label>
+                        <input type="text" name="transaction_id" id="transactionIdInput"
+                            class="w-full px-5 py-3 bg-white/5 border border-white/20 rounded-xl text-white focus:outline-none focus:border-accent-pink focus:ring-1 focus:ring-accent-pink transition-all duration-300">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-accent-blue font-semibold ml-1">Payment Screenshot *</label>
+                        <div class="relative">
+                            <input type="file" name="payment_screenshot" id="screenshotInput" accept="image/*"
+                                class="w-full px-5 py-3 bg-white/5 border border-white/20 rounded-xl text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent-blue file:text-bg-primary hover:file:bg-white cursor-pointer transition-all duration-300">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-accent-blue font-semibold ml-1">Project Expo Document (PDF/Doc) *</label>
+                    <div class="relative">
+                        <input type="file" name="project_document" required
+                            class="w-full px-5 py-3 bg-white/5 border border-white/20 rounded-xl text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent-blue file:text-bg-primary hover:file:bg-white cursor-pointer transition-all duration-300">
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8">
+                <button type="submit"
+                    class="w-full py-4 bg-accent-blue text-bg-primary text-xl font-bold rounded-full shadow-neon-blue transition-all duration-300 hover:bg-white hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(0,242,255,0.8)]">
+                    Register Team
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function toggleCollegeInput() {
+        const select = document.getElementById('collegeSelect');
+        const otherInput = document.getElementById('otherCollegeGroup');
+        const paymentSection = document.getElementById('paymentSection');
+        const transInput = document.getElementById('transactionIdInput');
+        const screenInput = document.getElementById('screenshotInput');
+
+        if (select.value === 'OTHER') {
+            otherInput.classList.remove('hidden');
+            otherInput.querySelector('input').required = true;
+
+            // Show payment
+            paymentSection.classList.remove('hidden');
+            transInput.required = true;
+            screenInput.required = true;
+        } else {
+            otherInput.classList.add('hidden');
+            otherInput.querySelector('input').required = false;
+
+            // Hide payment
+            paymentSection.classList.add('hidden');
+            transInput.required = false;
+            screenInput.required = false;
+            transInput.value = '';
+            screenInput.value = '';
+        }
+    }
+
+    function createMemberHtml(i) {
+        return `
+            <div id="member_${i}" class="bg-black/20 p-6 rounded-xl border border-white/5 space-y-4 relative" data-aos="fade-up">
+                <h4 class="text-accent-pink font-semibold">Member ${i} ${i === 1 ? '(Leader)' : ''}</h4>
+                <div class="space-y-4">
+                    <input type="text" name="member_name_${i}" placeholder="Name" required
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-pink transition-colors">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="email" name="member_email_${i}" placeholder="Email" required
+                            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-pink transition-colors">
+                        <input type="tel" name="member_mobile_${i}" placeholder="Mobile (10 digits)" pattern="[6-9][0-9]{9}" maxlength="10" required
+                            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-pink transition-colors">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" name="member_roll_${i}" placeholder="Roll No" required
+                            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-pink transition-colors">
+                        <div class="relative">
+                            <select name="member_dept_${i}" required
+                                class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-pink transition-colors appearance-none cursor-pointer">
+                                <option value="" disabled selected class="bg-bg-secondary">Select Department</option>
+                                <option value="CSE" class="bg-bg-secondary">CSE</option>
+                                <option value="AIML" class="bg-bg-secondary">AIML</option>
+                                <option value="CSE-CS" class="bg-bg-secondary">CSE-CS</option>
+                                <option value="CSE-DS" class="bg-bg-secondary">CSE-DS</option>
+                                <option value="IT" class="bg-bg-secondary">IT</option>
+                                <option value="ECE" class="bg-bg-secondary">ECE</option>
+                                <option value="EEE" class="bg-bg-secondary">EEE</option>
+                                <option value="MECH" class="bg-bg-secondary">MECH</option>
+                                <option value="CIVIL" class="bg-bg-secondary">CIVIL</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-accent-blue">
+                                <i class="ri-arrow-down-s-line"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="relative">
+                            <select name="member_tshirt_${i}" required
+                                class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-pink transition-colors appearance-none cursor-pointer">
+                                <option value="" disabled selected class="bg-bg-secondary">Select T-Shirt Size</option>
+                                <option value="S" class="bg-bg-secondary">Small (S)</option>
+                                <option value="M" class="bg-bg-secondary">Medium (M)</option>
+                                <option value="L" class="bg-bg-secondary">Large (L)</option>
+                                <option value="XL" class="bg-bg-secondary">Extra Large (XL)</option>
+                                <option value="XXL" class="bg-bg-secondary">XXL</option>
+                                <option value="XXXL" class="bg-bg-secondary">XXXL</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-accent-blue">
+                                <i class="ri-arrow-down-s-line"></i>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <select name="member_food_${i}" required
+                                class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-pink transition-colors appearance-none cursor-pointer">
+                                <option value="" disabled selected class="bg-bg-secondary">Food Preference</option>
+                                <option value="VEG" class="bg-bg-secondary">Vegetarian</option>
+                                <option value="NON-VEG" class="bg-bg-secondary">Non-Vegetarian</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-accent-blue">
+                                <i class="ri-arrow-down-s-line"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function generateTeamMembers() {
+        const size = parseInt(document.getElementById('teamSize').value);
+        const container = document.getElementById('teamMembersContainer');
+        container.innerHTML = '';
+
+        for (let i = 1; i <= size; i++) {
+            container.insertAdjacentHTML('beforeend', createMemberHtml(i));
+        }
+    }
+
+    // Initialize
+    generateTeamMembers();
+</script>
+{% block footer %}
+{% endblock %}
+{% endblock %}

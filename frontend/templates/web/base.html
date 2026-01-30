@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ignite 2K26 - NRCM</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: {
+                            primary: '#0f0424', // Deep rich purple/black
+                            secondary: '#1e0538', // Slightly lighter purple
+                        },
+                        accent: {
+                            blue: '#00f2ff', // Electric Cyan
+                            pink: '#FF007F', // Hot Pink
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    animation: {
+                        blob: "blob 20s infinite alternate",
+                        'glow-pulse': 'glow-pulse 2s infinite alternate',
+                        scroll: 'scroll 30s linear infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            "0%": { transform: "translate(0, 0) scale(1)" },
+                            "33%": { transform: "translate(50px, 100px) scale(1.1)" },
+                            "66%": { transform: "translate(-30px, 50px) scale(0.9)" },
+                            "100%": { transform: "translate(20px, -40px) scale(1.05)" },
+                        },
+                        'glow-pulse': {
+                            'from': { textShadow: '0 0 10px rgba(0, 242, 255, 0.5)' },
+                            'to': { textShadow: '0 0 20px rgba(0, 242, 255, 1)' },
+                        },
+                        scroll: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        }
+                    },
+                    boxShadow: {
+                        'neon-blue': '0 0 10px rgba(0, 242, 255, 0.7)',
+                        'neon-pink': '0 0 10px rgba(217, 70, 239, 0.7)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-glow-blue {
+                text-shadow: 0 0 10px rgba(0, 242, 255, 0.7);
+            }
+            .text-glow-pink {
+                text-shadow: 0 0 10px rgba(217, 70, 239, 0.7);
+            }
+            .glass {
+                @apply bg-white bg-opacity-5 backdrop-filter backdrop-blur-lg border border-white border-opacity-10;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-bg-primary text-white overflow-x-hidden font-sans relative">
+
+    <!-- Background Animation -->
+    <canvas id="particleCanvas" class="fixed inset-0 z-[-1]"></canvas>
+    <div class="fixed inset-0 z-[-2] overflow-hidden bg-bg-primary">
+        <div
+            class="absolute w-[500px] h-[500px] bg-bg-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob top-[-100px] left-[-100px]">
+        </div>
+        <div
+            class="absolute w-[400px] h-[400px] bg-accent-pink rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000 top-[20%] right-[-100px]">
+        </div>
+        <div
+            class="absolute w-[300px] h-[300px] bg-accent-blue rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-4000 bottom-[-50px] left-[20%]">
+        </div>
+        <div
+            class="absolute w-[250px] h-[250px] bg-purple-700 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-8000 bottom-[20%] right-[30%]">
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = (Math.random() - 0.5) * 1.5;
+                this.size = Math.random() * 2 + 1;
+                this.color = Math.random() > 0.5 ? 'rgba(0, 242, 255, 0.3)' : 'rgba(217, 70, 239, 0.3)'; // Blue or Pink with low opacity
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < particles.length; i++) {
+                let p = particles[i];
+                p.update();
+                p.draw();
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    let p2 = particles[j];
+                    let dx = p.x - p2.x;
+                    let dy = p.y - p2.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
+
+    <!-- Navbar -->
+    <nav
+        class="fixed top-0 left-0 w-full z-50 px-6 py-3 flex justify-between items-center bg-bg-primary/95 backdrop-blur-md border-b border-accent-blue/10 shadow-lg">
+        <!-- Logo & Brand -->
+        <div class="flex items-center gap-4">
+            {% load static %}
+            <div class="w-12 h-12 bg-white rounded-lg p-1 flex items-center justify-center">
+                <img src="{% static 'web/images/nrcm_logo.png' %}" alt="NRCM Logo"
+                    class="max-w-full max-h-full object-contain">
+            </div>
+            <div class="flex flex-col leading-tight">
+                <span class="text-2xl font-extrabold text-white tracking-widest uppercase font-sans">IGNITE</span>
+                <span class="text-sm font-bold text-accent-blue tracking-[0.2em] uppercase">2K26 Edition</span>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="lg:hidden text-white text-3xl focus:outline-none" onclick="toggleMobileMenu()">
+            <i class="ri-menu-3-line" id="menuIcon"></i>
+        </button>
+
+        <!-- Links (Center) -->
+        <!-- Links (Center) -->
+        <div class="hidden lg:flex items-center gap-10">
+            <a href="/"
+                class="text-gray-300 hover:text-white transition-colors text-sm uppercase tracking-wider font-semibold">Home</a>
+            <a href="/#gallery"
+                class="text-gray-300 hover:text-white transition-colors text-sm uppercase tracking-wider font-semibold">Gallery</a>
+            <a href="/#domains"
+                class="text-gray-300 hover:text-white transition-colors text-sm uppercase tracking-wider font-semibold">Domains</a>
+            <a href="/#guidelines"
+                class="text-gray-300 hover:text-white transition-colors text-sm uppercase tracking-wider font-semibold">Guidelines</a>
+            <a href="/#prizes"
+                class="text-gray-300 hover:text-white transition-colors text-sm uppercase tracking-wider font-semibold">Prizes</a>
+            <a href="/#team"
+                class="text-gray-300 hover:text-white transition-colors text-sm uppercase tracking-wider font-semibold">Team</a>
+        </div>
+
+        <!-- CTA (Right) -->
+        <div class="hidden md:flex">
+            <a href="/register/"
+                class="group px-6 py-2 border border-accent-blue text-accent-blue hover:bg-accent-blue hover:text-bg-primary font-bold uppercase tracking-wider rounded transition-all duration-300 flex items-center gap-2 text-sm">
+                Register Team
+                <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenu"
+        class="fixed inset-0 z-40 bg-bg-primary/95 backdrop-blur-xl transform translate-x-full transition-transform duration-300 md:hidden flex flex-col items-center justify-center gap-8">
+        <a href="/" onclick="toggleMobileMenu()"
+            class="text-2xl font-bold text-white uppercase tracking-widest hover:text-accent-blue transition-colors">Home</a>
+        <a href="/#gallery" onclick="toggleMobileMenu()"
+            class="text-2xl font-bold text-white uppercase tracking-widest hover:text-accent-blue transition-colors">Gallery</a>
+        <a href="/#domains" onclick="toggleMobileMenu()"
+            class="text-2xl font-bold text-white uppercase tracking-widest hover:text-accent-blue transition-colors">Domains</a>
+        <a href="/#guidelines" onclick="toggleMobileMenu()"
+            class="text-2xl font-bold text-white uppercase tracking-widest hover:text-accent-blue transition-colors">Guidelines</a>
+        <a href="/#prizes" onclick="toggleMobileMenu()"
+            class="text-2xl font-bold text-white uppercase tracking-widest hover:text-accent-blue transition-colors">Prizes</a>
+        <a href="/#team" onclick="toggleMobileMenu()"
+            class="text-2xl font-bold text-white uppercase tracking-widest hover:text-accent-blue transition-colors">Team</a>
+
+        <a href="/register/" onclick="toggleMobileMenu()"
+            class="px-8 py-3 bg-accent-blue text-bg-primary font-bold text-xl uppercase tracking-wider rounded-lg shadow-neon-blue mt-4">
+            Register Team
+        </a>
+    </div>
+
+    <div class="container mx-auto px-4 pt-24 min-h-screen">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    {% block footer %}
+    <footer class="bg-bg-primary pt-16 pb-0 relative z-10 border-t border-white/5 mt-20">
+        <div class="container mx-auto px-4 mb-4">
+            <!-- Organizers Header -->
+            <h2 id="team" class="text-3xl md:text-5xl text-center font-bold text-white mb-16 uppercase tracking-widest"
+                data-aos="zoom-in">
+                The <span class="text-accent-blue">Organizers</span>
+            </h2>
+
+            <!-- Faculty Coordinators Cards -->
+            <div class="mb-20">
+                <h3
+                    class="text-xl text-accent-blue border-l-4 border-accent-blue pl-3 mb-8 font-bold uppercase tracking-wide">
+                    Faculty Coordinators
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Org Secretary -->
+                    <div
+                        class="bg-white/5 border border-white/10 rounded-xl p-6 flex items-center gap-4 hover:border-accent-blue hover:bg-white/10 transition-all duration-300 group">
+                        <div
+                            class="w-14 h-14 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue shrink-0 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(251,191,36,0.2)]">
+                            <i class="ri-user-star-line text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg">Dr. P. Dileep Kumar Reddy</h4>
+                            <p class="text-accent-pink text-sm uppercase tracking-wider font-semibold">Dean-R&D (Org.
+                                Secretary)</p>
+                        </div>
+                    </div>
+
+                    <!-- Coordinators -->
+                    <div
+                        class="bg-white/5 border border-white/10 rounded-xl p-6 flex items-center gap-4 hover:border-accent-blue hover:bg-white/10 transition-all duration-300 group">
+                        <div
+                            class="w-14 h-14 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue shrink-0 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(251,191,36,0.2)]">
+                            <i class="ri-user-line text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg">Prof. N. Sai Kiranmai</h4>
+                            <p class="text-gray-400 text-sm font-semibold">HoD FME</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white/5 border border-white/10 rounded-xl p-6 flex items-center gap-4 hover:border-accent-blue hover:bg-white/10 transition-all duration-300 group">
+                        <div
+                            class="w-14 h-14 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue shrink-0 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(251,191,36,0.2)]">
+                            <i class="ri-user-line text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg">Prof. M. Sowmya</h4>
+                            <p class="text-gray-400 text-sm font-semibold">HoD IT</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white/5 border border-white/10 rounded-xl p-6 flex items-center gap-4 hover:border-accent-blue hover:bg-white/10 transition-all duration-300 group">
+                        <div
+                            class="w-14 h-14 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue shrink-0 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(251,191,36,0.2)]">
+                            <i class="ri-user-line text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg">Prof. D. Srinivas</h4>
+                            <p class="text-gray-400 text-sm font-semibold">Dean ICT</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patrons Grid (3 Columns) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center border-t border-white/10 pt-16 pb-12">
+                <!-- Chief Patrons -->
+                <div>
+                    <h3 class="text-accent-blue font-bold mb-8 text-xl uppercase tracking-widest text-glow-blue">Chief
+                        Patrons</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-white font-bold text-lg">Sri. J. Narsimha Reddy</p>
+                            <p class="text-gray-400 text-sm mt-1 uppercase tracking-wide">Chairman</p>
+                        </div>
+                        <div>
+                            <p class="text-white font-bold text-lg">Sri. J. Trishul Reddy</p>
+                            <p class="text-gray-400 text-sm mt-1 uppercase tracking-wide">Secretary</p>
+                        </div>
+                        <div>
+                            <p class="text-white font-bold text-lg">Sri. J. Thrilok Reddy</p>
+                            <p class="text-gray-400 text-sm mt-1 uppercase tracking-wide">Treasurer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Patrons -->
+                <div>
+                    <h3 class="text-accent-blue font-bold mb-8 text-xl uppercase tracking-widest text-glow-blue">Patrons
+                    </h3>
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-white font-bold text-lg">Dr. A. Mohan</p>
+                            <p class="text-gray-400 text-sm mt-1 uppercase tracking-wide">Director</p>
+                        </div>
+                        <div>
+                            <p class="text-white font-bold text-lg">Dr. R. Lokanadham</p>
+                            <p class="text-gray-400 text-sm mt-1 uppercase tracking-wide">Principal</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conveners -->
+                <div>
+                    <h3 class="text-accent-blue font-bold mb-8 text-xl uppercase tracking-widest text-glow-blue">
+                        Conveners</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-white font-bold text-lg">Dr. P. Ramesh Babu</p>
+                            <p class="text-gray-400 text-sm mt-1 uppercase tracking-wide">HoD - CSE (Convener)</p>
+                        </div>
+                        <div>
+                            <p class="text-white font-bold text-lg">Dr. P. Srilakshmi</p>
+                            <p class="text-gray-400 text-sm mt-1 uppercase tracking-wide">HoD - CS (Co-Convener)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="bg-black/40 border-t border-white/10 py-8 backdrop-blur-sm">
+            <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+                <!-- Left Brand -->
+                <div class="text-left">
+                    <h2 class="text-3xl font-bold text-white uppercase tracking-widest font-sans">NRCM</h2>
+                    <p class="text-gray-400 text-sm mt-2 leading-relaxed opacity-70">Narsimha Reddy Engineering
+                        College<br>Maisammaguda (V), Kompally - 500100, Hyderabad.</p>
+                </div>
+
+                <!-- Right -->
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <!-- Socials -->
+                    <div class="flex gap-4">
+                        <a href="#"
+                            class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-accent-blue hover:text-bg-primary hover:scale-110 transition-all duration-300 border border-white/10">
+                            <i class="ri-facebook-fill text-xl"></i>
+                        </a>
+                        <a href="#"
+                            class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-accent-pink hover:text-white hover:scale-110 transition-all duration-300 border border-white/10">
+                            <i class="ri-instagram-line text-xl"></i>
+                        </a>
+                        <a href="#"
+                            class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black hover:scale-110 transition-all duration-300 border border-white/10">
+                            <i class="ri-twitter-x-line text-xl"></i>
+                        </a>
+                        <a href="#"
+                            class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white hover:scale-110 transition-all duration-300 border border-white/10">
+                            <i class="ri-linkedin-fill text-xl"></i>
+                        </a>
+                    </div>
+
+                    <!-- Admin Login -->
+                    <a href="/admin/"
+                        class="px-8 py-3 bg-accent-blue text-bg-primary font-bold rounded-lg flex items-center gap-2 hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(251,191,36,0.3)]">
+                        <i class="ri-user-settings-line"></i> Admin Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    {% endblock %}
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50,
+            easing: 'ease-out-cubic',
+        });
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('menuIcon');
+            const body = document.body;
+
+            if (menu.classList.contains('translate-x-full')) {
+                // Open
+                menu.classList.remove('translate-x-full');
+                icon.classList.remove('ri-menu-3-line');
+                icon.classList.add('ri-close-line');
+                body.classList.add('overflow-hidden');
+            } else {
+                // Close
+                menu.classList.add('translate-x-full');
+                icon.classList.remove('ri-close-line');
+                icon.classList.add('ri-menu-3-line');
+                body.classList.remove('overflow-hidden');
+            }
+        }
+    </script>
+</body>
+
+</html>
