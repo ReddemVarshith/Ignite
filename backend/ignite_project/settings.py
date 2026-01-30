@@ -31,13 +31,15 @@ if not (BASE_DIR.parent / 'frontend' / 'templates').exists():
 SECRET_KEY = os.environ.get('SECRET_KEY', "django-insecure-#tvxql%1=ivd^fc5v7ma-^6s5)m3g==8#*65j6&!gcufey5^8k")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'RENDER' not in os.environ
+# SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = 'RENDER' not in os.environ
+DEBUG = True # TEMPORARY DEBUGGING
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] # TEMPORARY ALLOW ALL
 
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+# RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+# if RENDER_EXTERNAL_HOSTNAME:
+#     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 
 # Application definition
