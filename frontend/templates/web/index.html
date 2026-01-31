@@ -1,767 +1,290 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+{% extends 'web/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ignite 2K26 - NRCM</title>
+{% block content %}
+<!-- Hero Section -->
+<section class="min-h-[90vh] flex flex-col justify-center items-center text-center relative z-10 py-20">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        bg: {
-                            primary: '#0f0424', // Deep rich purple/black
-                            secondary: '#1e0538', // Slightly lighter purple
-                        },
-                        accent: {
-                            blue: '#00f2ff', // Electric Cyan
-                            pink: '#FF007F', // Hot Pink
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                    },
-                    animation: {
-                        blob: "blob 20s infinite alternate",
-                        'glow-pulse': 'glow-pulse 2s infinite alternate',
-                        scroll: 'scroll 30s linear infinite',
-                    },
-                    keyframes: {
-                        blob: {
-                            "0%": { transform: "translate(0, 0) scale(1)" },
-                            "33%": { transform: "translate(50px, 100px) scale(1.1)" },
-                            "66%": { transform: "translate(-30px, 50px) scale(0.9)" },
-                            "100%": { transform: "translate(20px, -40px) scale(1.05)" },
-                        },
-                        'glow-pulse': {
-                            'from': { textShadow: '0 0 10px rgba(0, 242, 255, 0.5)' },
-                            'to': { textShadow: '0 0 20px rgba(0, 242, 255, 1)' },
-                        },
-                        scroll: {
-                            '0%': { transform: 'translateX(0)' },
-                            '100%': { transform: 'translateX(-50%)' },
-                        }
-                    },
-                    boxShadow: {
-                        'neon-blue': '0 0 10px rgba(0, 242, 255, 0.7)',
-                        'neon-pink': '0 0 10px rgba(217, 70, 239, 0.7)',
-                    }
-                }
-            }
-        }
-    </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .text-glow-blue {
-                text-shadow: 0 0 10px rgba(0, 242, 255, 0.7);
-            }
-            .text-glow-pink {
-                text-shadow: 0 0 10px rgba(217, 70, 239, 0.7);
-            }
-            .glass {
-                @apply bg-white bg-opacity-5 backdrop-filter backdrop-blur-lg border border-white border-opacity-10;
-            }
-        }
-    </style>
-</head>
-
-<body class="bg-bg-primary text-white overflow-x-hidden font-sans relative">
-
-    <canvas id="particleCanvas" class="fixed inset-0 z-[-1]"></canvas>
-    <div class="fixed inset-0 z-[-2] overflow-hidden bg-bg-primary">
-        <div
-            class="absolute w-[500px] h-[500px] bg-bg-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob top-[-100px] left-[-100px]">
-        </div>
-        <div
-            class="absolute w-[400px] h-[400px] bg-accent-pink rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000 top-[20%] right-[-100px]">
-        </div>
-        <div
-            class="absolute w-[300px] h-[300px] bg-accent-blue rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-4000 bottom-[-50px] left-[20%]">
-        </div>
-        <div
-            class="absolute w-[250px] h-[250px] bg-purple-700 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-8000 bottom-[20%] right-[30%]">
+    <!-- Top Pill -->
+    <div class="mb-8 px-6 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm shadow-[0_0_20px_rgba(0,0,0,0.5)] animate-fade-in-up"
+        data-aos="fade-down" data-aos-duration="1000">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+            <span class="text-xs md:text-sm font-bold tracking-[0.2em] text-gray-300 uppercase">NRCM UGC
+                AUTONOMOUS</span>
         </div>
     </div>
 
-    <script>
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
+    <!-- Main Title -->
+    <div class="relative mb-6" data-aos="zoom-in" data-aos-duration="1200">
+        <h1 class="text-7xl md:text-9xl font-black tracking-tighter mb-2 leading-none font-sans italic">
+            <span
+                class="text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 filter drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">IGNITE</span>
+        </h1>
+        <h2
+            class="text-3xl md:text-5xl font-bold text-accent-blue tracking-[0.5em] uppercase text-glow-blue filter drop-shadow-[0_0_10px_rgba(255,255,0,0.5)]">
+            2K26 EDITION
+        </h2>
+    </div>
 
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
+    <!-- Subtitle/Tagline -->
+    <p class="text-xl md:text-2xl text-gray-300 mb-8 font-light tracking-wider max-w-2xl" data-aos="fade-up"
+        data-aos-delay="200">
+        The Ultimate <span class="text-accent-blue font-bold">National Level</span> Project Expo Challenge <br>
+        <span class="text-sm md:text-base text-gray-400 mt-2 block italic">"Innovation Meets Execution"</span>
+    </p>
 
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 1.5;
-                this.vy = (Math.random() - 0.5) * 1.5;
-                this.size = Math.random() * 2 + 1;
-                this.color = Math.random() > 0.5 ? 'rgba(0, 242, 255, 0.3)' : 'rgba(217, 70, 239, 0.3)'; // Blue or Pink with low opacity
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            }
-        }
-
-        function init() {
-            particles = [];
-            for (let i = 0; i < 100; i++) {
-                particles.push(new Particle());
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-
-            for (let i = 0; i < particles.length; i++) {
-                let p = particles[i];
-                p.update();
-                p.draw();
-
-                for (let j = i + 1; j < particles.length; j++) {
-                    let p2 = particles[j];
-                    let dx = p.x - p2.x;
-                    let dy = p.y - p2.y;
-                    let distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < 150) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 150)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
-                }
-            }
-            requestAnimationFrame(animate);
-        }
-
-        init();
-        animate();
-    </script>
-
-    <nav
-        class="fixed top-0 left-0 w-full z-50 px-6 py-3 flex justify-between items-center bg-bg-primary/95 backdrop-blur-md border-b border-accent-blue/10 shadow-lg">
-        <div class="flex items-center gap-4">
-            <div class="w-12 h-12 bg-white rounded-lg p-1 flex items-center justify-center overflow-hidden">
-                <img src="https://placehold.co/100x100/0f0424/white?text=NRCM" alt="NRCM Logo"
-                    class="max-w-full max-h-full object-contain">
-            </div>
-            <div class="flex flex-col leading-tight">
-                <span class="text-2xl font-extrabold text-white tracking-widest uppercase font-sans">IGNITE</span>
-                <span class="text-sm font-bold text-accent-blue tracking-[0.2em] uppercase">2K26 Edition</span>
-            </div>
+    <!-- Date Pill -->
+    <div
+        class="mb-12 px-8 py-3 rounded-lg bg-white/5 border border-accent-blue/30 shadow-[0_0_30px_rgba(0,242,255,0.1)] inline-block">
+        <div class="flex items-center gap-3 text-accent-blue">
+            <i class="ri-calendar-event-line text-xl"></i>
+            <span class="font-bold tracking-widest">FEB 24th, 2026</span>
         </div>
+    </div>
 
-        <button class="lg:hidden text-white text-3xl focus:outline-none" onclick="toggleMobileMenu()">
-            <i class="ri-menu-3-line" id="menuIcon"></i>
-        </button>
-
-        <div class="hidden lg:flex items-center gap-10">
-            <a href="#" class="text-gray-300 hover:text-white transition-colors text-sm uppercase tracking-wider font-semibold">Home</a>
-            <a href="#gallery" class="text-gray-300 hover:text-white transition-colors text-sm uppercase tracking-wider font-semibold">Gallery</a>
-            <a href="#domains" class="text-gray-300 hover:text-white transition-colors text-sm uppercase tracking-wider font-semibold">Domains</a>
-            <a href="#guidelines" class="text-gray-300 hover:text-white transition-colors text-sm uppercase tracking-wider font-semibold">Guidelines</a>
-            <a href="#prizes" class="text-gray-300 hover:text-white transition-colors text-sm uppercase tracking-wider font-semibold">Prizes</a>
-            <a href="#team" class="text-gray-300 hover:text-white transition-colors text-sm uppercase tracking-wider font-semibold">Team</a>
-        </div>
-
-        <div class="hidden md:flex">
-            <a href="https://ignite-yu3z.onrender.com/register/"
-                class="group px-6 py-2 border border-accent-blue text-accent-blue hover:bg-accent-blue hover:text-bg-primary font-bold uppercase tracking-wider rounded transition-all duration-300 flex items-center gap-2 text-sm">
-                Register Team
-                <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform"></i>
-            </a>
-        </div>
-    </nav>
-
-    <div id="mobileMenu"
-        class="fixed inset-0 z-40 bg-bg-primary/95 backdrop-blur-xl transform translate-x-full transition-transform duration-300 md:hidden flex flex-col items-center justify-center gap-8">
-        <a href="#" onclick="toggleMobileMenu()"
-            class="text-2xl font-bold text-white uppercase tracking-widest hover:text-accent-blue transition-colors">Home</a>
-        <a href="#gallery" onclick="toggleMobileMenu()"
-            class="text-2xl font-bold text-white uppercase tracking-widest hover:text-accent-blue transition-colors">Gallery</a>
-        <a href="#domains" onclick="toggleMobileMenu()"
-            class="text-2xl font-bold text-white uppercase tracking-widest hover:text-accent-blue transition-colors">Domains</a>
-        <a href="#guidelines" onclick="toggleMobileMenu()"
-            class="text-2xl font-bold text-white uppercase tracking-widest hover:text-accent-blue transition-colors">Guidelines</a>
-        <a href="#prizes" onclick="toggleMobileMenu()"
-            class="text-2xl font-bold text-white uppercase tracking-widest hover:text-accent-blue transition-colors">Prizes</a>
-        <a href="#team" onclick="toggleMobileMenu()"
-            class="text-2xl font-bold text-white uppercase tracking-widest hover:text-accent-blue transition-colors">Team</a>
-
-        <a href="#" onclick="toggleMobileMenu()"
-            class="px-8 py-3 bg-accent-blue text-bg-primary font-bold text-xl uppercase tracking-wider rounded-lg shadow-neon-blue mt-4">
-            Register Team
+    <div class="flex flex-col md:flex-row gap-6" data-aos="fade-up" data-aos-delay="400">
+        <a href="/register/"
+            class="px-12 py-4 bg-accent-blue text-bg-primary text-xl font-bold rounded-none skew-x-[-10deg] hover:skew-x-0 transition-all duration-300 shadow-[0_0_30px_rgba(0,242,255,0.5)] hover:shadow-[0_0_50px_rgba(0,242,255,0.8)] border-2 border-accent-blue">
+            <span class="block skew-x-[10deg] hover:skew-x-0">REGISTER YOUR TEAM</span>
+        </a>
+        {% load static %}
+        <a href="{% static 'web/docs/Sample_Abstract.docx' %}" download
+            class="px-12 py-4 bg-transparent border-2 border-accent-pink text-accent-pink text-xl font-bold rounded-none skew-x-[-10deg] hover:skew-x-0 transition-all duration-300 hover:bg-accent-pink hover:text-white hover:shadow-[0_0_30px_rgba(217,70,239,0.6)]">
+            <span class="block skew-x-[10deg] hover:skew-x-0 flex items-center gap-2">
+                <i class="ri-download-line"></i> Abstract Template
+            </span>
         </a>
     </div>
+</section>
 
-    <div class="container mx-auto px-4 pt-24 min-h-screen">
-        <section class="min-h-[90vh] flex flex-col justify-center items-center text-center relative z-10 py-20">
-
-            <div class="mb-8 px-6 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm shadow-[0_0_20px_rgba(0,0,0,0.5)] animate-fade-in-up"
-                data-aos="fade-down" data-aos-duration="1000">
-                <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                    <span class="text-xs md:text-sm font-bold tracking-[0.2em] text-gray-300 uppercase">NRCM UGC
-                        AUTONOMOUS</span>
-                </div>
+<!-- Gallery Section -->
+<section id="gallery" class="py-20 mb-16">
+    <h2 class="text-4xl md:text-5xl text-center text-accent-pink text-glow-pink mb-12 font-bold uppercase tracking-wider"
+        data-aos="fade-right">
+        Ignite 2K25 Gallery</h2>
+    <div class="w-full overflow-hidden relative mask-linear-gradient p-8">
+        <div class="flex w-max animate-scroll hover:pause">
+            <div class="flex gap-8 pr-8" id="galleryContent">
+                <!-- Images injected by JS -->
             </div>
-
-            <div class="relative mb-6" data-aos="zoom-in" data-aos-duration="1200">
-                <h1 class="text-7xl md:text-9xl font-black tracking-tighter mb-2 leading-none font-sans italic">
-                    <span
-                        class="text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 filter drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">IGNITE</span>
-                </h1>
-                <h2
-                    class="text-3xl md:text-5xl font-bold text-accent-blue tracking-[0.5em] uppercase text-glow-blue filter drop-shadow-[0_0_10px_rgba(255,255,0,0.5)]">
-                    2K26 EDITION
-                </h2>
+            <div class="flex gap-8 pr-8" id="galleryContentClone">
+                <!-- Cloned for infinite scroll -->
             </div>
+        </div>
+    </div>
+</section>
 
-            <p class="text-xl md:text-2xl text-gray-300 mb-8 font-light tracking-wider max-w-2xl" data-aos="fade-up"
-                data-aos-delay="200">
-                The Ultimate <span class="text-accent-blue font-bold">National Level</span> Project Expo Challenge <br>
-                <span class="text-sm md:text-base text-gray-400 mt-2 block italic">"Innovation Meets Execution"</span>
-            </p>
+<!-- Domains Section -->
+<section id="domains" class="py-20">
+    <h2 class="text-4xl md:text-5xl text-center text-accent-pink text-glow-pink mb-6 font-bold uppercase tracking-wider"
+        data-aos="fade-left">
+        Project Domains</h2>
+    <p class="text-center max-w-3xl mx-auto mb-16 text-gray-300 text-lg leading-relaxed">
+        Explore a wide range of engineering and management domains where innovation meets execution.
+        Showcase your technical prowess and creative solutions in your respective field.
+    </p>
 
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for domain in domains %}
+        <div class="glass p-10 rounded-3xl flex flex-col items-center text-center group transition-all duration-500 hover:-translate-y-2 hover:border-accent-blue hover:shadow-[0_0_30px_rgba(0,242,255,0.15)] hover:bg-white/10 relative overflow-hidden"
+            data-aos="fade-up">
             <div
-                class="mb-12 px-8 py-3 rounded-lg bg-white/5 border border-accent-blue/30 shadow-[0_0_30px_rgba(0,242,255,0.1)] inline-block">
-                <div class="flex items-center gap-3 text-accent-blue">
-                    <i class="ri-calendar-event-line text-xl"></i>
-                    <span class="font-bold tracking-widest">FEB 24th, 2026</span>
-                </div>
+                class="absolute inset-0 bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent translate-x-[-100%] transition-transform duration-700 group-hover:translate-x-[100%]">
             </div>
-
-            <div class="flex flex-col md:flex-row gap-6" data-aos="fade-up" data-aos-delay="400">
-                <a href="https://ignite-yu3z.onrender.com/register/"
-                    class="px-12 py-4 bg-accent-blue text-bg-primary text-xl font-bold rounded-none skew-x-[-10deg] hover:skew-x-0 transition-all duration-300 shadow-[0_0_30px_rgba(0,242,255,0.5)] hover:shadow-[0_0_50px_rgba(0,242,255,0.8)] border-2 border-accent-blue">
-                    <span class="block skew-x-[10deg] hover:skew-x-0">REGISTER YOUR TEAM</span>
-                </a>
-                
-                <a href="#"
-                    class="px-12 py-4 bg-transparent border-2 border-accent-pink text-accent-pink text-xl font-bold rounded-none skew-x-[-10deg] hover:skew-x-0 transition-all duration-300 hover:bg-accent-pink hover:text-white hover:shadow-[0_0_30px_rgba(217,70,239,0.6)]">
-                    <span class="block skew-x-[10deg] hover:skew-x-0 flex items-center gap-2">
-                        <i class="ri-download-line"></i> Abstract Template
-                    </span>
-                </a>
+            <div
+                class="text-5xl text-accent-pink mb-6 transition-all duration-500 group-hover:scale-110 group-hover:text-accent-blue group-hover:text-glow-blue">
+                {% if "Civil" in domain %}<i class="ri-building-line"></i>{% endif %}
+                {% if "Science" in domain %}<i class="ri-code-s-slash-line"></i>{% endif %}
+                {% if "Comm" in domain %}<i class="ri-base-station-line"></i>{% endif %}
+                {% if "Information" in domain %}<i class="ri-cpu-line"></i>{% endif %}
+                {% if "Electrical" in domain %}<i class="ri-flashlight-line"></i>{% endif %}
+                {% if "Mechanical" in domain %}<i class="ri-settings-4-line"></i>{% endif %}
+                {% if "MBA" in domain %}<i class="ri-briefcase-4-line"></i>{% endif %}
+                {% if "MCA" in domain %}<i class="ri-macbook-line"></i>{% endif %}
+                {% if "Humanities" in domain %}<i class="ri-beaker-line"></i>{% endif %}
             </div>
-        </section>
+            <h3 class="text-2xl font-bold text-white group-hover:text-accent-blue transition-colors">{{ domain }}</h3>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 
-        <section id="gallery" class="py-20 mb-16">
-            <h2 class="text-4xl md:text-5xl text-center text-accent-pink text-glow-pink mb-12 font-bold uppercase tracking-wider"
-                data-aos="fade-right">
-                Ignite 2K25 Gallery</h2>
-            <div class="w-full overflow-hidden relative mask-linear-gradient p-8">
-                <div class="flex w-max animate-scroll hover:pause">
-                    <div class="flex gap-8 pr-8" id="galleryContent">
-                        <div class="w-[300px] h-[200px] rounded-xl overflow-hidden shrink-0 border border-accent-blue/30 shadow-lg transition-transform duration-300 hover:scale-105 hover:border-accent-pink hover:shadow-[0_0_20px_rgba(217,70,239,0.4)]">
-                            <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=600" alt="Gallery 1" class="w-full h-full object-cover">
-                        </div>
-                        <div class="w-[300px] h-[200px] rounded-xl overflow-hidden shrink-0 border border-accent-blue/30 shadow-lg transition-transform duration-300 hover:scale-105 hover:border-accent-pink hover:shadow-[0_0_20px_rgba(217,70,239,0.4)]">
-                            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600" alt="Gallery 2" class="w-full h-full object-cover">
-                        </div>
-                        <div class="w-[300px] h-[200px] rounded-xl overflow-hidden shrink-0 border border-accent-blue/30 shadow-lg transition-transform duration-300 hover:scale-105 hover:border-accent-pink hover:shadow-[0_0_20px_rgba(217,70,239,0.4)]">
-                            <img src="https://images.unsplash.com/photo-1504384308090-c54be3855833?q=80&w=600" alt="Gallery 3" class="w-full h-full object-cover">
-                        </div>
-                        <div class="w-[300px] h-[200px] rounded-xl overflow-hidden shrink-0 border border-accent-blue/30 shadow-lg transition-transform duration-300 hover:scale-105 hover:border-accent-pink hover:shadow-[0_0_20px_rgba(217,70,239,0.4)]">
-                            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600" alt="Gallery 4" class="w-full h-full object-cover">
-                        </div>
-                        <div class="w-[300px] h-[200px] rounded-xl overflow-hidden shrink-0 border border-accent-blue/30 shadow-lg transition-transform duration-300 hover:scale-105 hover:border-accent-pink hover:shadow-[0_0_20px_rgba(217,70,239,0.4)]">
-                            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600" alt="Gallery 5" class="w-full h-full object-cover">
-                        </div>
+<!-- Guidelines -->
+<section id="guidelines" class="py-20">
+    <h2 class="text-4xl md:text-5xl text-center text-accent-pink text-glow-pink mb-16 font-bold uppercase tracking-wider"
+        data-aos="fade-right">
+        Participation Guidelines</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-bg-secondary/50 border-l-4 border-accent-pink p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:bg-bg-secondary/80 hover:translate-x-2 hover:shadow-xl hover:border-l-accent-blue group"
+            data-aos="fade-up">
+            <div
+                class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
+                <i class="ri-group-line"></i>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Eligibility</h3>
+                <p class="text-gray-300 leading-relaxed">Students from all Engineering and Polytechnic disciplines are
+                    eligible to participate.</p>
+            </div>
+        </div>
+
+        <div class="bg-bg-secondary/50 border-l-4 border-accent-pink p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:bg-bg-secondary/80 hover:translate-x-2 hover:shadow-xl hover:border-l-accent-blue group"
+            data-aos="fade-up" data-aos-delay="100">
+            <div
+                class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
+                <i class="ri-team-line"></i>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Team Size</h3>
+                <p class="text-gray-300 leading-relaxed">Projects can be done in teams of minimum 2 to maximum of 6
+                    students.</p>
+            </div>
+        </div>
+
+        <div class="bg-bg-secondary/50 border-l-4 border-accent-pink p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:bg-bg-secondary/80 hover:translate-x-2 hover:shadow-xl hover:border-l-accent-blue group"
+            data-aos="fade-up" data-aos-delay="200">
+            <div
+                class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
+                <i class="ri-settings-2-line"></i>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Prototype</h3>
+                <p class="text-gray-300 leading-relaxed">Each project must be a prototype or a working design model.</p>
+            </div>
+        </div>
+
+        <div class="bg-bg-secondary/50 border-l-4 border-accent-pink p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:bg-bg-secondary/80 hover:translate-x-2 hover:shadow-xl hover:border-l-accent-blue group"
+            data-aos="fade-up" data-aos-delay="300">
+            <div
+                class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
+                <i class="ri-medal-line"></i>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Certificates</h3>
+                <p class="text-gray-300 leading-relaxed">Merit and Participation certificates will be given to all
+                    participants.</p>
+            </div>
+        </div>
+
+        <div class="bg-bg-secondary/50 border-l-4 border-accent-pink p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:bg-bg-secondary/80 hover:translate-x-2 hover:shadow-xl hover:border-l-accent-blue group"
+            data-aos="fade-up" data-aos-delay="400">
+            <div
+                class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
+                <i class="ri-shirt-line"></i>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Perks</h3>
+                <p class="text-gray-300 leading-relaxed">T-Shirt & Snacks will be provided to all registered
+                    participants.</p>
+            </div>
+        </div>
+
+        <div class="md:col-span-2 bg-gradient-to-r from-accent-pink/10 to-accent-blue/10 border border-accent-blue p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,242,255,0.2)] group"
+            data-aos="zoom-in" data-aos-delay="500">
+            <div
+                class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
+                <i class="ri-money-dollar-circle-line"></i>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Registration Fee</h3>
+                <p class="text-gray-300 leading-relaxed text-lg">Rs. 250/- per student. <strong
+                        class="text-accent-blue">Last Date: 16-02-2026</strong></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Prizes -->
+<section id="prizes" class="py-20 relative">
+    <div class="container mx-auto px-4">
+        <h2 class="text-4xl md:text-5xl text-center text-accent-pink text-glow-pink mb-4 font-bold uppercase tracking-wider"
+            data-aos="zoom-in">Prizes</h2>
+        <p class="text-center text-gray-300 mb-16 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+            compete for the ultimate glory and win <span class="text-accent-blue font-bold text-glow-blue">Attractive
+                Cash
+                Prizes</span>
+        </p>
+
+        <div class="flex flex-col md:flex-row justify-center items-end gap-6 md:gap-0 max-w-5xl mx-auto">
+            <!-- 2nd Place -->
+            <div class="order-2 md:order-1 w-full md:w-1/3 p-4" data-aos="fade-right" data-aos-delay="200">
+                <div
+                    class="glass p-8 rounded-2xl flex flex-col items-center text-center transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-gray-400 relative overflow-hidden group">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-b from-gray-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     </div>
-                    <div class="flex gap-8 pr-8" id="galleryContentClone"></div>
+                    <div class="text-6xl mb-4 filter drop-shadow-[0_0_15px_rgba(156,163,175,0.5)]">🥈</div>
+                    <h3 class="text-2xl font-bold text-gray-300 mb-2">RUNNER UP</h3>
+                    <p class="text-glow-blue font-bold text-xl text-accent-blue">Cash Prize</p>
+                    <div class="mt-4 text-sm text-gray-400">Certificates + Mementos</div>
                 </div>
             </div>
-        </section>
 
-        <section id="domains" class="py-20">
-            <h2 class="text-4xl md:text-5xl text-center text-accent-pink text-glow-pink mb-6 font-bold uppercase tracking-wider"
-                data-aos="fade-left">
-                Project Domains</h2>
-            <p class="text-center max-w-3xl mx-auto mb-16 text-gray-300 text-lg leading-relaxed">
-                Explore a wide range of engineering and management domains where innovation meets execution.
-                Showcase your technical prowess and creative solutions in your respective field.
+            <!-- 1st Place (Winner) -->
+            <div class="order-1 md:order-2 w-full md:w-1/3 p-4 z-10" data-aos="zoom-in">
+                <div
+                    class="glass p-10 rounded-2xl flex flex-col items-center text-center transform hover:-translate-y-4 transition-all duration-300 border-t-4 border-accent-blue shadow-[0_0_50px_rgba(0,242,255,0.2)] relative overflow-hidden group bg-gradient-to-b from-accent-blue/5 to-transparent">
+                    <div
+                        class="absolute top-0 right-0 p-2 bg-accent-blue text-bg-primary font-bold text-xs uppercase tracking-wider rounded-bl-lg">
+                        Winner
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-b from-accent-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    </div>
+                    <div class="text-8xl mb-6 filter drop-shadow-[0_0_20px_rgba(0,242,255,0.6)] animate-pulse">🏆
+                    </div>
+                    <h3 class="text-3xl font-black text-white mb-2 uppercase tracking-wide">Grand Winner</h3>
+                    <p class="text-glow-blue font-black text-3xl text-accent-blue mb-2">Highest Cash Prize</p>
+                    <div class="mt-4 text-sm text-gray-300">Certificates + Mementos</div>
+                </div>
+            </div>
+
+            <!-- 3rd Place -->
+            <div class="order-3 w-full md:w-1/3 p-4" data-aos="fade-left" data-aos-delay="200">
+                <div
+                    class="glass p-8 rounded-2xl flex flex-col items-center text-center transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-orange-700 relative overflow-hidden group">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-b from-orange-700/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    </div>
+                    <div class="text-6xl mb-4 filter drop-shadow-[0_0_15px_rgba(194,65,12,0.5)]">🥉</div>
+                    <h3 class="text-2xl font-bold text-orange-200 mb-2">2nd RUNNER UP</h3>
+                    <p class="text-glow-blue font-bold text-xl text-accent-blue">Cash Prize</p>
+                    <div class="mt-4 text-sm text-gray-400">Certificates + Mementos</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-12" data-aos="fade-up" data-aos-delay="400">
+            <p class="text-gray-400 text-sm">
+                * All participants will receive participation certificates.
             </p>
+        </div>
+    </div>
+</section>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <div class="glass p-10 rounded-3xl flex flex-col items-center text-center group transition-all duration-500 hover:-translate-y-2 hover:border-accent-blue hover:shadow-[0_0_30px_rgba(0,242,255,0.15)] hover:bg-white/10 relative overflow-hidden"
-                    data-aos="fade-up">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent translate-x-[-100%] transition-transform duration-700 group-hover:translate-x-[100%]"></div>
-                    <div class="text-5xl text-accent-pink mb-6 transition-all duration-500 group-hover:scale-110 group-hover:text-accent-blue group-hover:text-glow-blue">
-                        <i class="ri-code-s-slash-line"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white group-hover:text-accent-blue transition-colors">Computer Science</h3>
-                </div>
+<!-- Contact -->
 
-                <div class="glass p-10 rounded-3xl flex flex-col items-center text-center group transition-all duration-500 hover:-translate-y-2 hover:border-accent-blue hover:shadow-[0_0_30px_rgba(0,242,255,0.15)] hover:bg-white/10 relative overflow-hidden"
-                    data-aos="fade-up">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent translate-x-[-100%] transition-transform duration-700 group-hover:translate-x-[100%]"></div>
-                    <div class="text-5xl text-accent-pink mb-6 transition-all duration-500 group-hover:scale-110 group-hover:text-accent-blue group-hover:text-glow-blue">
-                        <i class="ri-cpu-line"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white group-hover:text-accent-blue transition-colors">Information Tech</h3>
-                </div>
 
-                <div class="glass p-10 rounded-3xl flex flex-col items-center text-center group transition-all duration-500 hover:-translate-y-2 hover:border-accent-blue hover:shadow-[0_0_30px_rgba(0,242,255,0.15)] hover:bg-white/10 relative overflow-hidden"
-                    data-aos="fade-up">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent translate-x-[-100%] transition-transform duration-700 group-hover:translate-x-[100%]"></div>
-                    <div class="text-5xl text-accent-pink mb-6 transition-all duration-500 group-hover:scale-110 group-hover:text-accent-blue group-hover:text-glow-blue">
-                        <i class="ri-base-station-line"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white group-hover:text-accent-blue transition-colors">Electronics (ECE)</h3>
-                </div>
-
-                <div class="glass p-10 rounded-3xl flex flex-col items-center text-center group transition-all duration-500 hover:-translate-y-2 hover:border-accent-blue hover:shadow-[0_0_30px_rgba(0,242,255,0.15)] hover:bg-white/10 relative overflow-hidden"
-                    data-aos="fade-up">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent translate-x-[-100%] transition-transform duration-700 group-hover:translate-x-[100%]"></div>
-                    <div class="text-5xl text-accent-pink mb-6 transition-all duration-500 group-hover:scale-110 group-hover:text-accent-blue group-hover:text-glow-blue">
-                        <i class="ri-flashlight-line"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white group-hover:text-accent-blue transition-colors">Electrical (EEE)</h3>
-                </div>
-
-                <div class="glass p-10 rounded-3xl flex flex-col items-center text-center group transition-all duration-500 hover:-translate-y-2 hover:border-accent-blue hover:shadow-[0_0_30px_rgba(0,242,255,0.15)] hover:bg-white/10 relative overflow-hidden"
-                    data-aos="fade-up">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent translate-x-[-100%] transition-transform duration-700 group-hover:translate-x-[100%]"></div>
-                    <div class="text-5xl text-accent-pink mb-6 transition-all duration-500 group-hover:scale-110 group-hover:text-accent-blue group-hover:text-glow-blue">
-                        <i class="ri-building-line"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white group-hover:text-accent-blue transition-colors">Civil Engineering</h3>
-                </div>
-
-                <div class="glass p-10 rounded-3xl flex flex-col items-center text-center group transition-all duration-500 hover:-translate-y-2 hover:border-accent-blue hover:shadow-[0_0_30px_rgba(0,242,255,0.15)] hover:bg-white/10 relative overflow-hidden"
-                    data-aos="fade-up">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent translate-x-[-100%] transition-transform duration-700 group-hover:translate-x-[100%]"></div>
-                    <div class="text-5xl text-accent-pink mb-6 transition-all duration-500 group-hover:scale-110 group-hover:text-accent-blue group-hover:text-glow-blue">
-                        <i class="ri-settings-4-line"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white group-hover:text-accent-blue transition-colors">Mechanical Eng</h3>
-                </div>
-
-                <div class="glass p-10 rounded-3xl flex flex-col items-center text-center group transition-all duration-500 hover:-translate-y-2 hover:border-accent-blue hover:shadow-[0_0_30px_rgba(0,242,255,0.15)] hover:bg-white/10 relative overflow-hidden"
-                    data-aos="fade-up">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent translate-x-[-100%] transition-transform duration-700 group-hover:translate-x-[100%]"></div>
-                    <div class="text-5xl text-accent-pink mb-6 transition-all duration-500 group-hover:scale-110 group-hover:text-accent-blue group-hover:text-glow-blue">
-                        <i class="ri-briefcase-4-line"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white group-hover:text-accent-blue transition-colors">Management (MBA)</h3>
-                </div>
-
-                <div class="glass p-10 rounded-3xl flex flex-col items-center text-center group transition-all duration-500 hover:-translate-y-2 hover:border-accent-blue hover:shadow-[0_0_30px_rgba(0,242,255,0.15)] hover:bg-white/10 relative overflow-hidden"
-                    data-aos="fade-up">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent translate-x-[-100%] transition-transform duration-700 group-hover:translate-x-[100%]"></div>
-                    <div class="text-5xl text-accent-pink mb-6 transition-all duration-500 group-hover:scale-110 group-hover:text-accent-blue group-hover:text-glow-blue">
-                        <i class="ri-macbook-line"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white group-hover:text-accent-blue transition-colors">Applications (MCA)</h3>
-                </div>
-
-                <div class="glass p-10 rounded-3xl flex flex-col items-center text-center group transition-all duration-500 hover:-translate-y-2 hover:border-accent-blue hover:shadow-[0_0_30px_rgba(0,242,255,0.15)] hover:bg-white/10 relative overflow-hidden"
-                    data-aos="fade-up">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent translate-x-[-100%] transition-transform duration-700 group-hover:translate-x-[100%]"></div>
-                    <div class="text-5xl text-accent-pink mb-6 transition-all duration-500 group-hover:scale-110 group-hover:text-accent-blue group-hover:text-glow-blue">
-                        <i class="ri-flask-line"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white group-hover:text-accent-blue transition-colors">Humanities & Sciences</h3>
-                </div>
-
-            </div>
-        </section>
-
-        <section id="guidelines" class="py-20">
-            <h2 class="text-4xl md:text-5xl text-center text-accent-pink text-glow-pink mb-16 font-bold uppercase tracking-wider"
-                data-aos="fade-right">
-                Participation Guidelines</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-bg-secondary/50 border-l-4 border-accent-pink p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:bg-bg-secondary/80 hover:translate-x-2 hover:shadow-xl hover:border-l-accent-blue group"
-                    data-aos="fade-up">
-                    <div
-                        class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
-                        <i class="ri-group-line"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-white mb-2">Eligibility</h3>
-                        <p class="text-gray-300 leading-relaxed">Students from all Engineering and Polytechnic
-                            disciplines are
-                            eligible to participate.</p>
-                    </div>
-                </div>
-
-                <div class="bg-bg-secondary/50 border-l-4 border-accent-pink p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:bg-bg-secondary/80 hover:translate-x-2 hover:shadow-xl hover:border-l-accent-blue group"
-                    data-aos="fade-up" data-aos-delay="100">
-                    <div
-                        class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
-                        <i class="ri-team-line"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-white mb-2">Team Size</h3>
-                        <p class="text-gray-300 leading-relaxed">Projects can be done in teams of minimum 2 to maximum
-                            of 6
-                            students.</p>
-                    </div>
-                </div>
-
-                <div class="bg-bg-secondary/50 border-l-4 border-accent-pink p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:bg-bg-secondary/80 hover:translate-x-2 hover:shadow-xl hover:border-l-accent-blue group"
-                    data-aos="fade-up" data-aos-delay="200">
-                    <div
-                        class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
-                        <i class="ri-settings-2-line"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-white mb-2">Prototype</h3>
-                        <p class="text-gray-300 leading-relaxed">Each project must be a prototype or a working design
-                            model.</p>
-                    </div>
-                </div>
-
-                <div class="bg-bg-secondary/50 border-l-4 border-accent-pink p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:bg-bg-secondary/80 hover:translate-x-2 hover:shadow-xl hover:border-l-accent-blue group"
-                    data-aos="fade-up" data-aos-delay="300">
-                    <div
-                        class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
-                        <i class="ri-medal-line"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-white mb-2">Certificates</h3>
-                        <p class="text-gray-300 leading-relaxed">Merit and Participation certificates will be given to
-                            all
-                            participants.</p>
-                    </div>
-                </div>
-
-                <div class="bg-bg-secondary/50 border-l-4 border-accent-pink p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:bg-bg-secondary/80 hover:translate-x-2 hover:shadow-xl hover:border-l-accent-blue group"
-                    data-aos="fade-up" data-aos-delay="400">
-                    <div
-                        class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
-                        <i class="ri-shirt-line"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-white mb-2">Perks</h3>
-                        <p class="text-gray-300 leading-relaxed">T-Shirt & Snacks will be provided to all registered
-                            participants.</p>
-                    </div>
-                </div>
-
-                <div class="md:col-span-2 bg-gradient-to-r from-accent-pink/10 to-accent-blue/10 border border-accent-blue p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,242,255,0.2)] group"
-                    data-aos="zoom-in" data-aos-delay="500">
-                    <div
-                        class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
-                        <i class="ri-money-dollar-circle-line"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-white mb-2">Registration Fee</h3>
-                        <p class="text-gray-300 leading-relaxed text-lg">Rs. 250/- per student. <strong
-                                class="text-accent-blue">Last Date: 16-02-2026</strong></p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="prizes" class="py-20 relative">
-            <div class="container mx-auto px-4">
-                <h2 class="text-4xl md:text-5xl text-center text-accent-pink text-glow-pink mb-4 font-bold uppercase tracking-wider"
-                    data-aos="zoom-in">Prizes</h2>
-                <p class="text-center text-gray-300 mb-16 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
-                    compete for the ultimate glory and win <span
-                        class="text-accent-blue font-bold text-glow-blue">Attractive
-                        Cash
-                        Prizes</span>
-                </p>
-
-                <div class="flex flex-col md:flex-row justify-center items-end gap-6 md:gap-0 max-w-5xl mx-auto">
-                    <div class="order-2 md:order-1 w-full md:w-1/3 p-4" data-aos="fade-right" data-aos-delay="200">
-                        <div
-                            class="glass p-8 rounded-2xl flex flex-col items-center text-center transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-gray-400 relative overflow-hidden group">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-b from-gray-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            </div>
-                            <div class="text-6xl mb-4 filter drop-shadow-[0_0_15px_rgba(156,163,175,0.5)]">🥈</div>
-                            <h3 class="text-2xl font-bold text-gray-300 mb-2">RUNNER UP</h3>
-                            <p class="text-glow-blue font-bold text-xl text-accent-blue">Cash Prize</p>
-                            <div class="mt-4 text-sm text-gray-400">Certificates + Mementos</div>
-                        </div>
-                    </div>
-
-                    <div class="order-1 md:order-2 w-full md:w-1/3 p-4 z-10" data-aos="zoom-in">
-                        <div
-                            class="glass p-10 rounded-2xl flex flex-col items-center text-center transform hover:-translate-y-4 transition-all duration-300 border-t-4 border-accent-blue shadow-[0_0_50px_rgba(0,242,255,0.2)] relative overflow-hidden group bg-gradient-to-b from-accent-blue/5 to-transparent">
-                            <div
-                                class="absolute top-0 right-0 p-2 bg-accent-blue text-bg-primary font-bold text-xs uppercase tracking-wider rounded-bl-lg">
-                                Winner
-                            </div>
-                            <div
-                                class="absolute inset-0 bg-gradient-to-b from-accent-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            </div>
-                            <div class="text-8xl mb-6 filter drop-shadow-[0_0_20px_rgba(0,242,255,0.6)] animate-pulse">
-                                🏆
-                            </div>
-                            <h3 class="text-3xl font-black text-white mb-2 uppercase tracking-wide">Grand Winner</h3>
-                            <p class="text-glow-blue font-black text-3xl text-accent-blue mb-2">Highest Cash Prize</p>
-                            <div class="mt-4 text-sm text-gray-300">Certificates + Mementos</div>
-                        </div>
-                    </div>
-
-                    <div class="order-3 w-full md:w-1/3 p-4" data-aos="fade-left" data-aos-delay="200">
-                        <div
-                            class="glass p-8 rounded-2xl flex flex-col items-center text-center transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-orange-700 relative overflow-hidden group">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-b from-orange-700/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            </div>
-                            <div class="text-6xl mb-4 filter drop-shadow-[0_0_15px_rgba(194,65,12,0.5)]">🥉</div>
-                            <h3 class="text-2xl font-bold text-orange-200 mb-2">2nd RUNNER UP</h3>
-                            <p class="text-glow-blue font-bold text-xl text-accent-blue">Cash Prize</p>
-                            <div class="mt-4 text-sm text-gray-400">Certificates + Mementos</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="text-center mt-12" data-aos="fade-up" data-aos-delay="400">
-                    <p class="text-gray-400 text-sm">
-                        * All participants will receive participation certificates.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                // Since we are not fetching from an API, we take the static content
-                // and clone it to create the infinite scroll effect.
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('/api/gallery/')
+            .then(response => response.json())
+            .then(data => {
                 const galleryContent = document.getElementById('galleryContent');
                 const galleryContentClone = document.getElementById('galleryContentClone');
-                
-                // Clone the static content provided in the HTML
-                if (galleryContent && galleryContentClone) {
-                    galleryContentClone.innerHTML = galleryContent.innerHTML;
+
+                if (data.images && data.images.length > 0) {
+                    const imagesHtml = data.images.map(img =>
+                        `<div class="w-[300px] h-[200px] rounded-xl overflow-hidden shrink-0 border border-accent-blue/30 shadow-lg transition-transform duration-300 hover:scale-105 hover:border-accent-pink hover:shadow-[0_0_20px_rgba(217,70,239,0.4)]">
+                                <img src="${img.url}" alt="${img.alt}" class="w-full h-full object-cover">
+                             </div>`
+                    ).join('');
+
+                    galleryContent.innerHTML = imagesHtml;
+                    galleryContentClone.innerHTML = imagesHtml;
                 }
-            });
-        </script>
-    </div>
-
-    <footer class="bg-bg-primary pt-16 pb-0 relative z-10 border-t border-white/5 mt-20">
-        <div class="container mx-auto px-4 mb-4">
-            <h2 id="team" class="text-3xl md:text-5xl text-center font-bold text-white mb-16 uppercase tracking-widest"
-                data-aos="zoom-in">
-                The <span class="text-accent-blue">Organizers</span>
-            </h2>
-
-            <div class="mb-20">
-                <h3
-                    class="text-xl text-accent-blue border-l-4 border-accent-blue pl-3 mb-8 font-bold uppercase tracking-wide">
-                    Faculty Coordinators
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div
-                        class="bg-white/5 border border-white/10 rounded-xl p-6 flex items-center gap-4 hover:border-accent-blue hover:bg-white/10 transition-all duration-300 group">
-                        <div
-                            class="w-14 h-14 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue shrink-0 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(251,191,36,0.2)]">
-                            <i class="ri-user-star-line text-2xl"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-white font-bold text-lg">Dr. P. Dileep Kumar Reddy</h4>
-                            <p class="text-accent-pink text-sm uppercase tracking-wider font-semibold">Dean-R&D (Org.
-                                Secretary)</p>
-                        </div>
-                    </div>
-
-                    <div
-                        class="bg-white/5 border border-white/10 rounded-xl p-6 flex items-center gap-4 hover:border-accent-blue hover:bg-white/10 transition-all duration-300 group">
-                        <div
-                            class="w-14 h-14 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue shrink-0 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(251,191,36,0.2)]">
-                            <i class="ri-user-line text-2xl"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-white font-bold text-lg">Prof. N. Sai Kiranmai</h4>
-                            <p class="text-gray-400 text-sm font-semibold">HoD FME</p>
-                        </div>
-                    </div>
-
-                    <div
-                        class="bg-white/5 border border-white/10 rounded-xl p-6 flex items-center gap-4 hover:border-accent-blue hover:bg-white/10 transition-all duration-300 group">
-                        <div
-                            class="w-14 h-14 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue shrink-0 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(251,191,36,0.2)]">
-                            <i class="ri-user-line text-2xl"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-white font-bold text-lg">Prof. M. Sowmya</h4>
-                            <p class="text-gray-400 text-sm font-semibold">HoD IT</p>
-                        </div>
-                    </div>
-
-                    <div
-                        class="bg-white/5 border border-white/10 rounded-xl p-6 flex items-center gap-4 hover:border-accent-blue hover:bg-white/10 transition-all duration-300 group">
-                        <div
-                            class="w-14 h-14 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue shrink-0 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(251,191,36,0.2)]">
-                            <i class="ri-user-line text-2xl"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-white font-bold text-lg">Prof. D. Srinivas</h4>
-                            <p class="text-gray-400 text-sm font-semibold">Dean ICT</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center border-t border-white/10 pt-16 pb-12">
-                <div>
-                    <h3 class="text-accent-blue font-bold mb-8 text-xl uppercase tracking-widest text-glow-blue">Chief
-                        Patrons</h3>
-                    <div class="space-y-6">
-                        <div>
-                            <p class="text-white font-bold text-lg">Sri. J. Narsimha Reddy</p>
-                            <p class="text-gray-400 text-sm mt-1 uppercase tracking-wide">Chairman</p>
-                        </div>
-                        <div>
-                            <p class="text-white font-bold text-lg">Sri. J. Trishul Reddy</p>
-                            <p class="text-gray-400 text-sm mt-1 uppercase tracking-wide">Secretary</p>
-                        </div>
-                        <div>
-                            <p class="text-white font-bold text-lg">Sri. J. Thrilok Reddy</p>
-                            <p class="text-gray-400 text-sm mt-1 uppercase tracking-wide">Treasurer</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <h3 class="text-accent-blue font-bold mb-8 text-xl uppercase tracking-widest text-glow-blue">Patrons
-                    </h3>
-                    <div class="space-y-6">
-                        <div>
-                            <p class="text-white font-bold text-lg">Dr. A. Mohan</p>
-                            <p class="text-gray-400 text-sm mt-1 uppercase tracking-wide">Director</p>
-                        </div>
-                        <div>
-                            <p class="text-white font-bold text-lg">Dr. R. Lokanadham</p>
-                            <p class="text-gray-400 text-sm mt-1 uppercase tracking-wide">Principal</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <h3 class="text-accent-blue font-bold mb-8 text-xl uppercase tracking-widest text-glow-blue">
-                        Conveners</h3>
-                    <div class="space-y-6">
-                        <div>
-                            <p class="text-white font-bold text-lg">Dr. P. Ramesh Babu</p>
-                            <p class="text-gray-400 text-sm mt-1 uppercase tracking-wide">HoD - CSE (Convener)</p>
-                        </div>
-                        <div>
-                            <p class="text-white font-bold text-lg">Dr. P. Srilakshmi</p>
-                            <p class="text-gray-400 text-sm mt-1 uppercase tracking-wide">HoD - CS (Co-Convener)</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-black/40 border-t border-white/10 py-8 backdrop-blur-sm">
-            <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
-                <div class="text-left">
-                    <h2 class="text-3xl font-bold text-white uppercase tracking-widest font-sans">NRCM</h2>
-                    <p class="text-gray-400 text-sm mt-2 leading-relaxed opacity-70">Narsimha Reddy Engineering
-                        College<br>Maisammaguda (V), Kompally - 500100, Hyderabad.</p>
-                </div>
-
-                <div class="flex flex-col md:flex-row items-center gap-8">
-                    <div class="flex gap-4">
-                        <a href="#"
-                            class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-accent-blue hover:text-bg-primary hover:scale-110 transition-all duration-300 border border-white/10">
-                            <i class="ri-facebook-fill text-xl"></i>
-                        </a>
-                        <a href="#"
-                            class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-accent-pink hover:text-white hover:scale-110 transition-all duration-300 border border-white/10">
-                            <i class="ri-instagram-line text-xl"></i>
-                        </a>
-                        <a href="#"
-                            class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black hover:scale-110 transition-all duration-300 border border-white/10">
-                            <i class="ri-twitter-x-line text-xl"></i>
-                        </a>
-                        <a href="#"
-                            class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white hover:scale-110 transition-all duration-300 border border-white/10">
-                            <i class="ri-linkedin-fill text-xl"></i>
-                        </a>
-                    </div>
-
-                    <a href="#"
-                        class="px-8 py-3 bg-accent-blue text-bg-primary font-bold rounded-lg flex items-center gap-2 hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(251,191,36,0.3)]">
-                        <i class="ri-user-settings-line"></i> Admin Login
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="bg-black/60 border-t border-white/5 py-6 backdrop-blur-sm relative z-20">
-            <div class="container mx-auto px-4 text-center">
-                <p class="text-gray-400 text-sm">© 2026 Ignite National Level Project Expo, NRCMEC. All rights reserved.
-                </p>
-                <p class="text-gray-500 text-xs mt-2">Developed by <span
-                        class="text-accent-blue font-semibold">R.Varshith Reddy(23X01A05V7)</span> & <span
-                        class="text-accent-blue font-semibold">P.Dhanush Reddy(23X01A05S4)</span></p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 50,
-            easing: 'ease-out-cubic',
-        });
-
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            const icon = document.getElementById('menuIcon');
-            const body = document.body;
-
-            if (menu.classList.contains('translate-x-full')) {
-                // Open
-                menu.classList.remove('translate-x-full');
-                icon.classList.remove('ri-menu-3-line');
-                icon.classList.add('ri-close-line');
-                body.classList.add('overflow-hidden');
-            } else {
-                // Close
-                menu.classList.add('translate-x-full');
-                icon.classList.remove('ri-close-line');
-                icon.classList.add('ri-menu-3-line');
-                body.classList.remove('overflow-hidden');
-            }
-        }
-    </script>
-</body>
-
-</html>
+            })
+            .catch(error => console.error('Error fetching gallery:', error));
+    });
+</script>
+{% endblock %}
