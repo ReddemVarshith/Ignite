@@ -214,6 +214,7 @@
         </div>
 
         <!-- CTA (Right) -->
+        {% if request.resolver_match.url_name != 'register' %}
         <div class="hidden md:flex">
             <a href="/register/"
                 class="group px-6 py-2 border border-accent-blue text-accent-blue hover:bg-accent-blue hover:text-bg-primary font-bold uppercase tracking-wider rounded transition-all duration-300 flex items-center gap-2 text-sm">
@@ -221,6 +222,7 @@
                 <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform"></i>
             </a>
         </div>
+        {% endif %}
     </nav>
 
     <!-- Mobile Menu Overlay -->
@@ -239,10 +241,12 @@
         <a href="/#team" onclick="toggleMobileMenu()"
             class="text-2xl font-bold text-white uppercase tracking-widest hover:text-accent-blue transition-colors">Team</a>
 
+        {% if request.resolver_match.url_name != 'register' %}
         <a href="/register/" onclick="toggleMobileMenu()"
             class="px-8 py-3 bg-accent-blue text-bg-primary font-bold text-xl uppercase tracking-wider rounded-lg shadow-neon-blue mt-4">
             Register Team
         </a>
+        {% endif %}
     </div>
 
     <div class="container mx-auto px-4 pt-24 min-h-screen">

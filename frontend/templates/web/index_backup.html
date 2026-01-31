@@ -1,0 +1,290 @@
+{% extends 'web/base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="min-h-[90vh] flex flex-col justify-center items-center text-center relative z-10 py-20">
+
+    <!-- Top Pill -->
+    <div class="mb-8 px-6 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm shadow-[0_0_20px_rgba(0,0,0,0.5)] animate-fade-in-up"
+        data-aos="fade-down" data-aos-duration="1000">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+            <span class="text-xs md:text-sm font-bold tracking-[0.2em] text-gray-300 uppercase">NRCM UGC
+                AUTONOMOUS</span>
+        </div>
+    </div>
+
+    <!-- Main Title -->
+    <div class="relative mb-6" data-aos="zoom-in" data-aos-duration="1200">
+        <h1 class="text-7xl md:text-9xl font-black tracking-tighter mb-2 leading-none font-sans italic">
+            <span
+                class="text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 filter drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">IGNITE</span>
+        </h1>
+        <h2
+            class="text-3xl md:text-5xl font-bold text-accent-blue tracking-[0.5em] uppercase text-glow-blue filter drop-shadow-[0_0_10px_rgba(255,255,0,0.5)]">
+            2K26 EDITION
+        </h2>
+    </div>
+
+    <!-- Subtitle/Tagline -->
+    <p class="text-xl md:text-2xl text-gray-300 mb-8 font-light tracking-wider max-w-2xl" data-aos="fade-up"
+        data-aos-delay="200">
+        The Ultimate <span class="text-accent-blue font-bold">National Level</span> Project Expo Challenge <br>
+        <span class="text-sm md:text-base text-gray-400 mt-2 block italic">"Innovation Meets Execution"</span>
+    </p>
+
+    <!-- Date Pill -->
+    <div
+        class="mb-12 px-8 py-3 rounded-lg bg-white/5 border border-accent-blue/30 shadow-[0_0_30px_rgba(0,242,255,0.1)] inline-block">
+        <div class="flex items-center gap-3 text-accent-blue">
+            <i class="ri-calendar-event-line text-xl"></i>
+            <span class="font-bold tracking-widest">FEB 24th, 2026</span>
+        </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-6" data-aos="fade-up" data-aos-delay="400">
+        <a href="/register/"
+            class="px-12 py-4 bg-accent-blue text-bg-primary text-xl font-bold rounded-none skew-x-[-10deg] hover:skew-x-0 transition-all duration-300 shadow-[0_0_30px_rgba(0,242,255,0.5)] hover:shadow-[0_0_50px_rgba(0,242,255,0.8)] border-2 border-accent-blue">
+            <span class="block skew-x-[10deg] hover:skew-x-0">REGISTER YOUR TEAM</span>
+        </a>
+        {% load static %}
+        <a href="{% static 'web/docs/Sample_Abstract.docx' %}" download
+            class="px-12 py-4 bg-transparent border-2 border-accent-pink text-accent-pink text-xl font-bold rounded-none skew-x-[-10deg] hover:skew-x-0 transition-all duration-300 hover:bg-accent-pink hover:text-white hover:shadow-[0_0_30px_rgba(217,70,239,0.6)]">
+            <span class="block skew-x-[10deg] hover:skew-x-0 flex items-center gap-2">
+                <i class="ri-download-line"></i> Abstract Template
+            </span>
+        </a>
+    </div>
+</section>
+
+<!-- Gallery Section -->
+<section id="gallery" class="py-20 mb-16">
+    <h2 class="text-4xl md:text-5xl text-center text-accent-pink text-glow-pink mb-12 font-bold uppercase tracking-wider"
+        data-aos="fade-right">
+        Ignite 2K25 Gallery</h2>
+    <div class="w-full overflow-hidden relative mask-linear-gradient p-8">
+        <div class="flex w-max animate-scroll hover:pause">
+            <div class="flex gap-8 pr-8" id="galleryContent">
+                <!-- Images injected by JS -->
+            </div>
+            <div class="flex gap-8 pr-8" id="galleryContentClone">
+                <!-- Cloned for infinite scroll -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Domains Section -->
+<section id="domains" class="py-20">
+    <h2 class="text-4xl md:text-5xl text-center text-accent-pink text-glow-pink mb-6 font-bold uppercase tracking-wider"
+        data-aos="fade-left">
+        Project Domains</h2>
+    <p class="text-center max-w-3xl mx-auto mb-16 text-gray-300 text-lg leading-relaxed">
+        Explore a wide range of engineering and management domains where innovation meets execution.
+        Showcase your technical prowess and creative solutions in your respective field.
+    </p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for domain in domains %}
+        <div class="glass p-10 rounded-3xl flex flex-col items-center text-center group transition-all duration-500 hover:-translate-y-2 hover:border-accent-blue hover:shadow-[0_0_30px_rgba(0,242,255,0.15)] hover:bg-white/10 relative overflow-hidden"
+            data-aos="fade-up">
+            <div
+                class="absolute inset-0 bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent translate-x-[-100%] transition-transform duration-700 group-hover:translate-x-[100%]">
+            </div>
+            <div
+                class="text-5xl text-accent-pink mb-6 transition-all duration-500 group-hover:scale-110 group-hover:text-accent-blue group-hover:text-glow-blue">
+                {% if "Civil" in domain %}<i class="ri-building-line"></i>{% endif %}
+                {% if "Science" in domain %}<i class="ri-code-s-slash-line"></i>{% endif %}
+                {% if "Comm" in domain %}<i class="ri-base-station-line"></i>{% endif %}
+                {% if "Information" in domain %}<i class="ri-cpu-line"></i>{% endif %}
+                {% if "Electrical" in domain %}<i class="ri-flashlight-line"></i>{% endif %}
+                {% if "Mechanical" in domain %}<i class="ri-settings-4-line"></i>{% endif %}
+                {% if "MBA" in domain %}<i class="ri-briefcase-4-line"></i>{% endif %}
+                {% if "MCA" in domain %}<i class="ri-macbook-line"></i>{% endif %}
+                {% if "Humanities" in domain %}<i class="ri-beaker-line"></i>{% endif %}
+            </div>
+            <h3 class="text-2xl font-bold text-white group-hover:text-accent-blue transition-colors">{{ domain }}</h3>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Guidelines -->
+<section id="guidelines" class="py-20">
+    <h2 class="text-4xl md:text-5xl text-center text-accent-pink text-glow-pink mb-16 font-bold uppercase tracking-wider"
+        data-aos="fade-right">
+        Participation Guidelines</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-bg-secondary/50 border-l-4 border-accent-pink p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:bg-bg-secondary/80 hover:translate-x-2 hover:shadow-xl hover:border-l-accent-blue group"
+            data-aos="fade-up">
+            <div
+                class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
+                <i class="ri-group-line"></i>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Eligibility</h3>
+                <p class="text-gray-300 leading-relaxed">Students from all Engineering and Polytechnic disciplines are
+                    eligible to participate.</p>
+            </div>
+        </div>
+
+        <div class="bg-bg-secondary/50 border-l-4 border-accent-pink p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:bg-bg-secondary/80 hover:translate-x-2 hover:shadow-xl hover:border-l-accent-blue group"
+            data-aos="fade-up" data-aos-delay="100">
+            <div
+                class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
+                <i class="ri-team-line"></i>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Team Size</h3>
+                <p class="text-gray-300 leading-relaxed">Projects can be done in teams of minimum 2 to maximum of 6
+                    students.</p>
+            </div>
+        </div>
+
+        <div class="bg-bg-secondary/50 border-l-4 border-accent-pink p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:bg-bg-secondary/80 hover:translate-x-2 hover:shadow-xl hover:border-l-accent-blue group"
+            data-aos="fade-up" data-aos-delay="200">
+            <div
+                class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
+                <i class="ri-settings-2-line"></i>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Prototype</h3>
+                <p class="text-gray-300 leading-relaxed">Each project must be a prototype or a working design model.</p>
+            </div>
+        </div>
+
+        <div class="bg-bg-secondary/50 border-l-4 border-accent-pink p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:bg-bg-secondary/80 hover:translate-x-2 hover:shadow-xl hover:border-l-accent-blue group"
+            data-aos="fade-up" data-aos-delay="300">
+            <div
+                class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
+                <i class="ri-medal-line"></i>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Certificates</h3>
+                <p class="text-gray-300 leading-relaxed">Merit and Participation certificates will be given to all
+                    participants.</p>
+            </div>
+        </div>
+
+        <div class="bg-bg-secondary/50 border-l-4 border-accent-pink p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:bg-bg-secondary/80 hover:translate-x-2 hover:shadow-xl hover:border-l-accent-blue group"
+            data-aos="fade-up" data-aos-delay="400">
+            <div
+                class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
+                <i class="ri-shirt-line"></i>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Perks</h3>
+                <p class="text-gray-300 leading-relaxed">T-Shirt & Snacks will be provided to all registered
+                    participants.</p>
+            </div>
+        </div>
+
+        <div class="md:col-span-2 bg-gradient-to-r from-accent-pink/10 to-accent-blue/10 border border-accent-blue p-8 rounded-xl flex items-start gap-6 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,242,255,0.2)] group"
+            data-aos="zoom-in" data-aos-delay="500">
+            <div
+                class="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center text-3xl text-accent-blue shrink-0 group-hover:scale-110 transition-transform">
+                <i class="ri-money-dollar-circle-line"></i>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold text-white mb-2">Registration Fee</h3>
+                <p class="text-gray-300 leading-relaxed text-lg">Rs. 250/- per student. <strong
+                        class="text-accent-blue">Last Date: 16-02-2026</strong></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Prizes -->
+<section id="prizes" class="py-20 relative">
+    <div class="container mx-auto px-4">
+        <h2 class="text-4xl md:text-5xl text-center text-accent-pink text-glow-pink mb-4 font-bold uppercase tracking-wider"
+            data-aos="zoom-in">Prizes</h2>
+        <p class="text-center text-gray-300 mb-16 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+            compete for the ultimate glory and win <span class="text-accent-blue font-bold text-glow-blue">Attractive
+                Cash
+                Prizes</span>
+        </p>
+
+        <div class="flex flex-col md:flex-row justify-center items-end gap-6 md:gap-0 max-w-5xl mx-auto">
+            <!-- 2nd Place -->
+            <div class="order-2 md:order-1 w-full md:w-1/3 p-4" data-aos="fade-right" data-aos-delay="200">
+                <div
+                    class="glass p-8 rounded-2xl flex flex-col items-center text-center transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-gray-400 relative overflow-hidden group">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-b from-gray-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    </div>
+                    <div class="text-6xl mb-4 filter drop-shadow-[0_0_15px_rgba(156,163,175,0.5)]">🥈</div>
+                    <h3 class="text-2xl font-bold text-gray-300 mb-2">RUNNER UP</h3>
+                    <p class="text-glow-blue font-bold text-xl text-accent-blue">Cash Prize</p>
+                    <div class="mt-4 text-sm text-gray-400">Certificates + Mementos</div>
+                </div>
+            </div>
+
+            <!-- 1st Place (Winner) -->
+            <div class="order-1 md:order-2 w-full md:w-1/3 p-4 z-10" data-aos="zoom-in">
+                <div
+                    class="glass p-10 rounded-2xl flex flex-col items-center text-center transform hover:-translate-y-4 transition-all duration-300 border-t-4 border-accent-blue shadow-[0_0_50px_rgba(0,242,255,0.2)] relative overflow-hidden group bg-gradient-to-b from-accent-blue/5 to-transparent">
+                    <div
+                        class="absolute top-0 right-0 p-2 bg-accent-blue text-bg-primary font-bold text-xs uppercase tracking-wider rounded-bl-lg">
+                        Winner
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-b from-accent-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    </div>
+                    <div class="text-8xl mb-6 filter drop-shadow-[0_0_20px_rgba(0,242,255,0.6)] animate-pulse">🏆
+                    </div>
+                    <h3 class="text-3xl font-black text-white mb-2 uppercase tracking-wide">Grand Winner</h3>
+                    <p class="text-glow-blue font-black text-3xl text-accent-blue mb-2">Highest Cash Prize</p>
+                    <div class="mt-4 text-sm text-gray-300">Certificates + Mementos</div>
+                </div>
+            </div>
+
+            <!-- 3rd Place -->
+            <div class="order-3 w-full md:w-1/3 p-4" data-aos="fade-left" data-aos-delay="200">
+                <div
+                    class="glass p-8 rounded-2xl flex flex-col items-center text-center transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-orange-700 relative overflow-hidden group">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-b from-orange-700/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    </div>
+                    <div class="text-6xl mb-4 filter drop-shadow-[0_0_15px_rgba(194,65,12,0.5)]">🥉</div>
+                    <h3 class="text-2xl font-bold text-orange-200 mb-2">2nd RUNNER UP</h3>
+                    <p class="text-glow-blue font-bold text-xl text-accent-blue">Cash Prize</p>
+                    <div class="mt-4 text-sm text-gray-400">Certificates + Mementos</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-12" data-aos="fade-up" data-aos-delay="400">
+            <p class="text-gray-400 text-sm">
+                * All participants will receive participation certificates.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('/api/gallery/')
+            .then(response => response.json())
+            .then(data => {
+                const galleryContent = document.getElementById('galleryContent');
+                const galleryContentClone = document.getElementById('galleryContentClone');
+
+                if (data.images && data.images.length > 0) {
+                    const imagesHtml = data.images.map(img =>
+                        `<div class="w-[300px] h-[200px] rounded-xl overflow-hidden shrink-0 border border-accent-blue/30 shadow-lg transition-transform duration-300 hover:scale-105 hover:border-accent-pink hover:shadow-[0_0_20px_rgba(217,70,239,0.4)]">
+                                <img src="${img.url}" alt="${img.alt}" class="w-full h-full object-cover">
+                             </div>`
+                    ).join('');
+
+                    galleryContent.innerHTML = imagesHtml;
+                    galleryContentClone.innerHTML = imagesHtml;
+                }
+            })
+            .catch(error => console.error('Error fetching gallery:', error));
+    });
+</script>
+{% endblock %}
