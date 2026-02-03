@@ -934,8 +934,7 @@
                                     <select name="project_category" class="form-select">
                                         <option value="">All Domains</option>
                                         {% for category in project_categories %}
-                                        <option value="{{ category }}" {% if filters.project_category==category
-                                            %}selected{% endif %}>
+                                        <option value="{{ category }}" {% if filters.project_category == category %}selected{% endif %}>
                                             {{ category }}
                                         </option>
                                         {% endfor %}
@@ -945,14 +944,10 @@
                                     <label class="form-label fw-semibold">Payment Status</label>
                                     <select name="selection_status" class="form-select">
                                         <option value="">All Statuses</option>
-                                        <option value="pending" {% if filters.selection_status=='pending' %}selected{%
-                                            endif %}>Pending</option>
-                                        <option value="selected" {% if filters.selection_status=='selected' %}selected{%
-                                            endif %}>Selected</option>
-                                        <option value="rejected" {% if filters.selection_status=='rejected' %}selected{%
-                                            endif %}>Rejected</option>
-                                        <option value="waitlisted" {% if filters.selection_status=='waitlisted'
-                                            %}selected{% endif %}>Waitlisted</option>
+                                        <option value="pending" {% if filters.selection_status == 'pending' %}selected{% endif %}>Pending</option>
+                                        <option value="selected" {% if filters.selection_status == 'selected' %}selected{% endif %}>Selected</option>
+                                        <option value="rejected" {% if filters.selection_status == 'rejected' %}selected{% endif %}>Rejected</option>
+                                        <option value="waitlisted" {% if filters.selection_status == 'waitlisted' %}selected{% endif %}>Waitlisted</option>
                                     </select>
                                 </div>
 
@@ -1105,12 +1100,9 @@
                                     data-current-status="{{ reg.selection_status|default:'pending' }}">
                                     <option value="pending" {% if reg.selection_status=='pending' %}selected{% endif %}>
                                         Pending</option>
-                                    <option value="selected" {% if reg.selection_status=='selected' %}selected{% endif
-                                        %}>Selected</option>
-                                    <option value="rejected" {% if reg.selection_status=='rejected' %}selected{% endif
-                                        %}>Rejected</option>
-                                    <option value="waitlisted" {% if reg.selection_status=='waitlisted' %}selected{%
-                                        endif %}>Waitlisted</option>
+                                    <option value="selected" {% if reg.selection_status == 'selected' %}selected{% endif %}>Selected</option>
+                                    <option value="rejected" {% if reg.selection_status == 'rejected' %}selected{% endif %}>Rejected</option>
+                                    <option value="waitlisted" {% if reg.selection_status == 'waitlisted' %}selected{% endif %}>Waitlisted</option>
                                 </select>
                             </td>
                             <td>
