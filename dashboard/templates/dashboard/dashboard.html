@@ -922,7 +922,8 @@
                                     <select name="team_size" class="form-select">
                                         <option value="">All Sizes</option>
                                         {% for size in team_sizes %}
-                                        <option value="{{ size }}" {% if filters.team_size == size|stringformat:"s" %}selected{% endif %}>
+                                        <option value="{{ size }}" {% if filters.team_size==size|stringformat:"s"
+                                            %}selected{% endif %}>
                                             {{ size }} Members
                                         </option>
                                         {% endfor %}
@@ -944,10 +945,14 @@
                                     <label class="form-label fw-semibold">Payment Status</label>
                                     <select name="selection_status" class="form-select">
                                         <option value="">All Statuses</option>
-                                        <option value="pending" {% if filters.selection_status == 'pending' %}selected{% endif %}>Pending</option>
-                                        <option value="selected" {% if filters.selection_status == 'selected' %}selected{% endif %}>Selected</option>
-                                        <option value="rejected" {% if filters.selection_status == 'rejected' %}selected{% endif %}>Rejected</option>
-                                        <option value="waitlisted" {% if filters.selection_status == 'waitlisted' %}selected{% endif %}>Waitlisted</option>
+                                        <option value="pending" {% if filters.selection_status=='pending' %}selected{%
+                                            endif %}>Pending</option>
+                                        <option value="selected" {% if filters.selection_status=='selected' %}selected{%
+                                            endif %}>Selected</option>
+                                        <option value="rejected" {% if filters.selection_status=='rejected' %}selected{%
+                                            endif %}>Rejected</option>
+                                        <option value="waitlisted" {% if filters.selection_status=='waitlisted'
+                                            %}selected{% endif %}>Waitlisted</option>
                                     </select>
                                 </div>
 
@@ -1098,10 +1103,14 @@
                                 <select class="form-select form-select-sm selection-status"
                                     data-registration-id="{{ reg.id }}"
                                     data-current-status="{{ reg.selection_status|default:'pending' }}">
-                                    <option value="pending" {% if reg.selection_status == 'pending' %}selected{% endif %}>Pending</option>
-                                    <option value="selected" {% if reg.selection_status == 'selected' %}selected{% endif %}>Selected</option>
-                                    <option value="rejected" {% if reg.selection_status == 'rejected' %}selected{% endif %}>Rejected</option>
-                                    <option value="waitlisted" {% if reg.selection_status == 'waitlisted' %}selected{% endif %}>Waitlisted</option>
+                                    <option value="pending" {% if reg.selection_status=='pending' %}selected{% endif %}>
+                                        Pending</option>
+                                    <option value="selected" {% if reg.selection_status=='selected' %}selected{% endif
+                                        %}>Selected</option>
+                                    <option value="rejected" {% if reg.selection_status=='rejected' %}selected{% endif
+                                        %}>Rejected</option>
+                                    <option value="waitlisted" {% if reg.selection_status=='waitlisted' %}selected{%
+                                        endif %}>Waitlisted</option>
                                 </select>
                             </td>
                             <td>
