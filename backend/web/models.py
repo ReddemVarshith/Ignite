@@ -8,7 +8,20 @@ class Registration(models.Model):
         ('OTHER', 'Other'),
     ]
 
+    CATEGORY_CHOICES = [
+        ('CIVIL', 'Civil Engineering'),
+        ('MECH', 'Mechanical Engineering'),
+        ('CSE', 'Computer Science and Engineering & Emerging Areas'),
+        ('ECE', 'Electronics and Communication Engineering'),
+        ('MBA', 'Master of Business Administration'),
+        ('IT', 'Information Technology'),
+        ('MCA', 'Master of Computer Applications'),
+        ('SH', 'Science & Humanities'),
+        ('EEE', 'Electrical & Electronics Engineering'),
+    ]
+
     project_title = models.CharField(max_length=255, unique=True)
+    project_category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='CSE')
     team_leader_name = models.CharField(max_length=255)
     team_leader_email = models.EmailField()
     team_leader_mobile = models.CharField(
@@ -27,6 +40,13 @@ class Registration(models.Model):
     payment_screenshot = CloudinaryField('image', blank=True, null=True)
     project_document = CloudinaryField('raw', resource_type='raw')
     
+    SELECTION_CHOICES = [
+        ('PENDING', 'Pending'),
+        ('SELECTED', 'Selected'),
+        ('REJECTED', 'Rejected'),
+    ]
+    selection_status = models.CharField(max_length=20, choices=SELECTION_CHOICES, default='PENDING')
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
