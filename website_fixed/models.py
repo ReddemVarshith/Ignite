@@ -15,6 +15,7 @@ class WebRegistration(models.Model):
     created_at = models.DateTimeField()
     selection_status = models.CharField(max_length=50, default='pending')
     idea_theme = models.CharField(max_length=255, blank=True, null=True)
+    project_category = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = True

@@ -1,101 +1,70 @@
-
-import os
 import re
 
-file_path = r'c:/Users/sanja/OneDrive/Desktop/ignite_admin/dashboard/templates/dashboard/dashboard.html'
-
+# Read the file
+file_path = r'C:\Users\sanja\OneDrive\Desktop\ignite_admin\dashboard\templates\dashboard\dashboard.html'
 with open(file_path, 'r', encoding='utf-8') as f:
     content = f.read()
 
-# Define replacements
-replacements = [
-    (
-        r'{% if filters.team_size==size\|stringformat:"s"\s+%\}selected{% endif %}', 
-        '{% if filters.team_size == size|stringformat:"s" %}selected{% endif %}'
-    ),
-    (
-        r'{% if filters.idea_theme==theme %\}selected{% endif\s+%\}', 
-        '{% if filters.idea_theme == theme %}selected{% endif %}'
-    ),
-    (
-        r'{% if filters.selection_status==\'pending\' %\}selected{%\s+endif %\}',
-        '{% if filters.selection_status == \'pending\' %}selected{% endif %}'
-    ),
-    (
-        r'{% if filters.selection_status==\'selected\' %\}selected{%\s+endif %\}',
-        '{% if filters.selection_status == \'selected\' %}selected{% endif %}'
-    ),
-    (
-        r'{% if filters.selection_status==\'rejected\' %\}selected{%\s+endif %\}',
-        '{% if filters.selection_status == \'rejected\' %}selected{% endif %}'
-    ),
-    (
-        r'{% if filters.selection_status==\'waitlisted\'\s+%\}selected{% endif %\}',
-        '{% if filters.selection_status == \'waitlisted\' %}selected{% endif %}'
-    )
-]
-
-new_content = content
-
-# 1. Fix Team Size
-# The pattern in the file (from view_file) is:
-# {% if filters.team_size==size|stringformat:"s"
-#                                             %}selected{% endif %}
-# Regex to match this spanning multiple lines
-new_content = re.sub(
-    r'{%\s*if filters\.team_size==size\|stringformat:"s"\s+%\}selected{%\s*endif\s*%\}',
-    '{% if filters.team_size == size|stringformat:"s" %}selected{% endif %}',
-    new_content,
-    flags=re.DOTALL
+# Fix 1: Line 925-926 - Team Size filter
+content = re.sub(
+    r'<option value="{{ size }}" {% if filters\.team_size==size\|stringformat:"s"\s+%}selected{% endif %}>',
+    '<option value="{{ size }}" {% if filters.team_size == size|stringformat:"s" %}selected{% endif %}>',
+    content
 )
 
-# 2. Fix Theme
-# {% if filters.idea_theme==theme %}selected{% endif
-#                                             %}
-new_content = re.sub(
-    r'{%\s*if filters\.idea_theme==theme\s*%\}selected{%\s*endif\s*%\}',
-    '{% if filters.idea_theme == theme %}selected{% endif %}',
-    new_content,
-    flags=re.DOTALL
+# Fix 2: Line 937-938 - Theme filter
+content = re.sub(
+    r'<option value="{{ theme }}" {% if filters\.idea_theme==theme %}selected{% endif\s+%}>',
+    '<option value="{{ theme }}" {% if filters.idea_theme == theme %}selected{% endif %}>',
+    content
 )
 
-# 3. Fix Payment Status (all options)
-# pattern: {% if filters.selection_status=='pending' %}selected{%
-#                                             endif %}
-new_content = re.sub(
-    r'{%\s*if filters\.selection_status==\'([a-z]+)\'\s*%\}selected{%\s*endif\s*%\}',
-    r"{% if filters.selection_status == '\1' %}selected{% endif %}",
-    new_content,
-    flags=re.DOTALL
+# Fix 3: Lines 948-955 - Selection status filter (multiple options)
+content = re.sub(
+    r'<option value="pending" {% if filters\.selection_status==\'pending\' %}selected{%\s+endif %}>Pending</option>',
+    '<option value="pending" {% if filters.selection_status == \'pending\' %}selected{% endif %}>Pending</option>',
+    content
+)
+content = re.sub(
+    r'<option value="selected" {% if filters\.selection_status==\'selected\' %}selected{%\s+endif %}>Selected</option>',
+    '<option value="selected" {% if filters.selection_status == \'selected\' %}selected{% endif %}>Selected</option>',
+    content
+)
+content = re.sub(
+    r'<option value="rejected" {% if filters\.selection_status==\'rejected\' %}selected{%\s+endif %}>Rejected</option>',
+    '<option value="rejected" {% if filters.selection_status == \'rejected\' %}selected{% endif %}>Rejected</option>',
+    content
+)
+content = re.sub(
+    r'<option value="waitlisted" {% if filters\.selection_status==\'waitlisted\'\s+%}selected{% endif %}>Waitlisted</option>',
+    '<option value="waitlisted" {% if filters.selection_status == \'waitlisted\' %}selected{% endif %}>Waitlisted</option>',
+    content
 )
 
-# 4. Fix Table Selection Status (reg.selection_status)
-# pattern: {% if reg.selection_status=='pending' %}selected{% endif %}
-# or split across lines
-new_content = re.sub(
-    r'{%\s*if reg\.selection_status==\'([a-z]+)\'\s*%\}selected{%\s*endif\s*%\}',
-    r"{% if reg.selection_status == '\1' %}selected{% endif %}",
-    new_content,
-    flags=re.DOTALL
+# Fix 4: Lines 1106-1113 - Registration table status (multiple options)
+content = re.sub(
+    r'<option value="pending" {% if reg\.selection_status==\'pending\' %}selected{% endif %}>\s+Pending</option>',
+    '<option value="pending" {% if reg.selection_status == \'pending\' %}selected{% endif %}>Pending</option>',
+    content
+)
+content = re.sub(
+    r'<option value="selected" {% if reg\.selection_status==\'selected\' %}selected{% endif\s+%}>Selected</option>',
+    '<option value="selected" {% if reg.selection_status == \'selected\' %}selected{% endif %}>Selected</option>',
+    content
+)
+content = re.sub(
+    r'<option value="rejected" {% if reg\.selection_status==\'rejected\' %}selected{% endif\s+%}>Rejected</option>',
+    '<option value="rejected" {% if reg.selection_status == \'rejected\' %}selected{% endif %}>Rejected</option>',
+    content
+)
+content = re.sub(
+    r'<option value="waitlisted" {% if reg\.selection_status==\'waitlisted\' %}selected{%\s+endif %}>Waitlisted</option>',
+    '<option value="waitlisted" {% if reg.selection_status == \'waitlisted\' %}selected{% endif %}>Waitlisted</option>',
+    content
 )
 
-# Also fix specific split cases if the above generic one doesn't catch them
-new_content = re.sub(
-    r'{%\s*if reg\.selection_status==\'([a-z]+)\'\s*%\}selected{%\s*endif',
-    r"{% if reg.selection_status == '\1' %}selected{% endif",
-    new_content,
-    flags=re.DOTALL
-)
+# Write the file back
+with open(file_path, 'w', encoding='utf-8') as f:
+    f.write(content)
 
-if content != new_content:
-    print("Found and fixed broken tags.")
-    with open(file_path, 'w', encoding='utf-8') as f:
-        f.write(new_content)
-else:
-    print("No matching patterns found. Dumping a snippet to debug...")
-    # Find where 'stringformat' is to see what it looks like
-    idx = content.find('stringformat:"s"')
-    if idx != -1:
-        print(f"Context around 'stringformat':\n{content[idx-20:idx+100]}")
-    else:
-        print("Could not even find 'stringformat:\"s\"' string in file.")
+print("File fixed successfully!")

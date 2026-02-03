@@ -204,6 +204,7 @@ def dashboard_view(request):
             'has_ppt': has_ppt,
             'idea_title': reg.project_title,
             'idea_theme': reg.idea_theme,
+            'project_category': reg.project_category,
             'youtube_link': 'N/A', # Missing
             'ppt_file_path': ppt_path,
             'selection_status': reg.selection_status,

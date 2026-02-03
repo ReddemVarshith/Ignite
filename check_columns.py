@@ -1,33 +1,21 @@
+from website_fixed.models import WebRegistration
+from django.db import connection
 
-import os
-import django
-from django.conf import settings
-import psycopg2
-from dotenv import load_dotenv
-
-load_dotenv()
-dsn = os.getenv('DATABASE_URL')
-
-def get_columns(table_name):
-    try:
-        conn = psycopg2.connect(dsn)
-        cur = conn.cursor()
-        cur.execute(f"""
-            SELECT column_name, data_type, is_nullable
-            FROM information_schema.columns 
-            WHERE table_name = '{table_name}'
-            ORDER BY ordinal_position;
-        """)
-        cols = cur.fetchall()
-        conn.close()
-        return cols
-    except Exception as e:
-        print(f"Error {table_name}: {e}")
-        return []
-
-tables = ['web_registration', 'web_teammember', 'events_registration', 'events_teammember']
-for t in tables:
-    print(f"\nTABLE: {t}")
-    cols = get_columns(t)
-    for c in cols:
-        print(f"  {c[0]} ({c[1]}) check_null={c[2]}")
+# Get all columns from the web_registration table
+with connection.cursor() as cursor:
+    cursor.execute("""
+        SELECT column_name 
+        FROM information_schema.columns 
+        WHERE table_name = 'web_registration'
+        ORDER BY ordinal_position
+    """)
+    columns = [row[0] for row in cursor.fetchall()]
+    print("Columns in web_registration table:")
+    for col in columns:
+        print(f"  - {col}")
+    
+    # Check if project_category exists
+    if 'project_category' in columns:
+        print("\n✓ project_category column EXISTS in database")
+    else:
+        print("\n✗ project_category column DOES NOT exist in database")

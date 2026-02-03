@@ -922,20 +922,18 @@
                                     <select name="team_size" class="form-select">
                                         <option value="">All Sizes</option>
                                         {% for size in team_sizes %}
-                                        <option value="{{ size }}" {% if filters.team_size==size|stringformat:"s"
-                                            %}selected{% endif %}>
+                                        <option value="{{ size }}" {% if filters.team_size == size|stringformat:"s" %}selected{% endif %}>
                                             {{ size }} Members
                                         </option>
                                         {% endfor %}
                                     </select>
                                 </div>
                                 <div class="col-lg-2 col-md-4 mb-3">
-                                    <label class="form-label fw-semibold">Theme</label>
+                                    <label class="form-label fw-semibold">Domain</label>
                                     <select name="idea_theme" class="form-select">
                                         <option value="">All Themes</option>
                                         {% for theme in idea_themes %}
-                                        <option value="{{ theme }}" {% if filters.idea_theme==theme %}selected{% endif
-                                            %}>
+                                        <option value="{{ theme }}" {% if filters.idea_theme == theme %}selected{% endif %}>
                                             {{ theme }}
                                         </option>
                                         {% endfor %}
@@ -945,14 +943,10 @@
                                     <label class="form-label fw-semibold">Payment Status</label>
                                     <select name="selection_status" class="form-select">
                                         <option value="">All Statuses</option>
-                                        <option value="pending" {% if filters.selection_status=='pending' %}selected{%
-                                            endif %}>Pending</option>
-                                        <option value="selected" {% if filters.selection_status=='selected' %}selected{%
-                                            endif %}>Selected</option>
-                                        <option value="rejected" {% if filters.selection_status=='rejected' %}selected{%
-                                            endif %}>Rejected</option>
-                                        <option value="waitlisted" {% if filters.selection_status=='waitlisted'
-                                            %}selected{% endif %}>Waitlisted</option>
+                                        <option value="pending" {% if filters.selection_status == 'pending' %}selected{% endif %}>Pending</option>
+                                        <option value="selected" {% if filters.selection_status == 'selected' %}selected{% endif %}>Selected</option>
+                                        <option value="rejected" {% if filters.selection_status == 'rejected' %}selected{% endif %}>Rejected</option>
+                                        <option value="waitlisted" {% if filters.selection_status == 'waitlisted' %}selected{% endif %}>Waitlisted</option>
                                     </select>
                                 </div>
 
@@ -1069,7 +1063,7 @@
                             <th>Payment Status</th>
                             <th>Team Members</th>
                             <th>Registration Date</th>
-                            <th>Theme</th>
+                            <th>Domain</th>
                             <th>Transaction ID</th>
                             <th>Abstract</th>
                             <th>Payment Proof</th>
@@ -1103,14 +1097,10 @@
                                 <select class="form-select form-select-sm selection-status"
                                     data-registration-id="{{ reg.id }}"
                                     data-current-status="{{ reg.selection_status|default:'pending' }}">
-                                    <option value="pending" {% if reg.selection_status=='pending' %}selected{% endif %}>
-                                        Pending</option>
-                                    <option value="selected" {% if reg.selection_status=='selected' %}selected{% endif
-                                        %}>Selected</option>
-                                    <option value="rejected" {% if reg.selection_status=='rejected' %}selected{% endif
-                                        %}>Rejected</option>
-                                    <option value="waitlisted" {% if reg.selection_status=='waitlisted' %}selected{%
-                                        endif %}>Waitlisted</option>
+                                    <option value="pending" {% if reg.selection_status == 'pending' %}selected{% endif %}>Pending</option>
+                                    <option value="selected" {% if reg.selection_status == 'selected' %}selected{% endif %}>Selected</option>
+                                    <option value="rejected" {% if reg.selection_status == 'rejected' %}selected{% endif %}>Rejected</option>
+                                    <option value="waitlisted" {% if reg.selection_status == 'waitlisted' %}selected{% endif %}>Waitlisted</option>
                                 </select>
                             </td>
                             <td>
@@ -1132,9 +1122,9 @@
                                 <small class="text-muted">{{ reg.registration_date|date:"M d, Y" }}</small>
                             </td>
                             <td>
-                                <div class="mobile-table-header">Theme</div>
-                                <div title="{{ reg.idea_theme }}">
-                                    {{ reg.idea_theme|default:"N/A" }}
+                                <div class="mobile-table-header">Domain</div>
+                                <div title="{{ reg.project_category }}">
+                                    {{ reg.project_category|default:"N/A" }}
                                 </div>
                             </td>
                             <td>
@@ -1365,44 +1355,6 @@
                 $('#teamMemberModal').modal('show');
             });
 
-            // Payment Proof Modal Functionality
-            $(document).on('click', '.view-proof-btn', function () {
-                const url = $(this).data('url');
-                const teamName = $(this).data('team');
-
-                // Set modal title
-                $('#paymentProofModalLabel').text('Payment Proof - ' + teamName);
-
-                // Set download link
-                $('#downloadProofBtn').attr('href', url);
-
-                // Reset content to loader
-                $('#paymentProofContent').html('<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>');
-
-                // Show modal
-                $('#paymentProofModal').modal('show');
-
-                // Check if it's an image or PDF
-                // For simplicity, we'll try to load it as an image first
-                const img = new Image();
-                img.onload = function () {
-                    $('#paymentProofContent').html('<img src="' + url + '" class="img-fluid" alt="Payment Proof">');
-                };
-                img.onerror = function () {
-                    // If image load fails, it might be a PDF or other file type
-                    // Or it might be a direct download link that doesn't allow embedding
-                    // We'll show an iframe for PDF or a message
-                    $('#paymentProofContent').html(
-                        '<div class="text-center">' +
-                        '<p class="mb-3">Preview might not be available for this file type.</p>' +
-                        '<a href="' + url + '" target="_blank" class="btn btn-outline-primary">' +
-                        '<i class="fas fa-external-link-alt me-1"></i>Open in New Tab' +
-                        '</a>' +
-                        '</div>'
-                    );
-                };
-                img.src = url;
-            });
 
             // Auto-submit form on filter change (with debounce)
             let filterTimeout;
@@ -1615,89 +1567,94 @@
         });
     </script>
 
+    <!-- Data for Charts -->
+    <script id="status-data" type="application/json">
+        [
+            {% for reg in registrations %}
+                "{{ reg.selection_status|default:'pending' }}"{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ]
+    </script>
+
     <!-- Chart Initialization -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Get data from template
-            const statuses = [
-                {% for reg in registrations %}
-                    "{{ reg.selection_status|default:'pending' }}",
-            {% endfor %}
-            ];
+            const statuses = JSON.parse(document.getElementById('status-data').textContent);
 
-        // Count occurrences
-        const statusCounts = {
-            'pending': 0,
-            'selected': 0,
-            'rejected': 0,
-            'waitlisted': 0
-        };
+            // Count occurrences
+            const statusCounts = {
+                'pending': 0,
+                'selected': 0,
+                'rejected': 0,
+                'waitlisted': 0
+            };
 
-        statuses.forEach(status => {
-            if (statusCounts.hasOwnProperty(status)) {
-                statusCounts[status]++;
-            } else {
-                statusCounts['pending']++; // Default fallback
-            }
-        });
+            statuses.forEach(status => {
+                if (statusCounts.hasOwnProperty(status)) {
+                    statusCounts[status]++;
+                } else {
+                    statusCounts['pending']++; // Default fallback
+                }
+            });
 
-        // Setup Chart
-        const ctx = document.getElementById('statusChart').getContext('2d');
+            // Setup Chart
+            const ctx = document.getElementById('statusChart').getContext('2d');
 
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Selected', 'Pending', 'Waitlisted', 'Rejected'],
-                datasets: [{
-                    data: [
-                        statusCounts['selected'],
-                        statusCounts['pending'],
-                        statusCounts['waitlisted'],
-                        statusCounts['rejected']
-                    ],
-                    backgroundColor: [
-                        '#2ecc71',
-                        '#95a5a6',
-                        '#f1c40f',
-                        '#e74c3c'
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            font: {
-                                family: "'Poppins', sans-serif",
-                                size: 11
-                            },
-                            usePointStyle: true,
-                            padding: 20
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Selected', 'Pending', 'Waitlisted', 'Rejected'],
+                    datasets: [{
+                        data: [
+                            statusCounts['selected'],
+                            statusCounts['pending'],
+                            statusCounts['waitlisted'],
+                            statusCounts['rejected']
+                        ],
+                        backgroundColor: [
+                            '#2ecc71',
+                            '#95a5a6',
+                            '#f1c40f',
+                            '#e74c3c'
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    family: "'Poppins', sans-serif",
+                                    size: 11
+                                },
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#000',
+                            bodyColor: '#000',
+                            borderColor: '#ddd',
+                            borderWidth: 1,
+                            padding: 10,
+                            displayColors: true,
+                            usePointStyle: true
                         }
                     },
-                    tooltip: {
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                        titleColor: '#000',
-                        bodyColor: '#000',
-                        borderColor: '#ddd',
-                        borderWidth: 1,
-                        padding: 10,
-                        displayColors: true,
-                        usePointStyle: true
+                    cutout: '70%',
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
                     }
-                },
-                cutout: '70%',
-                animation: {
-                    animateScale: true,
-                    animateRotate: true
                 }
-            }
-        });
+            });
         });
     </script>
 
@@ -1758,11 +1715,15 @@
             const paymentProofModal = new bootstrap.Modal(document.getElementById('paymentProofModal'));
             const paymentProofContent = document.getElementById('paymentProofContent');
             const downloadProofBtn = document.getElementById('downloadProofBtn');
+            const modalTitle = document.getElementById('paymentProofModalLabel');
 
             document.querySelectorAll('.view-proof-btn').forEach(btn => {
                 btn.addEventListener('click', function () {
                     const url = this.getAttribute('data-url');
                     const teamName = this.getAttribute('data-team');
+
+                    // Update title
+                    modalTitle.textContent = 'Payment Proof - ' + teamName;
 
                     // Update download link
                     downloadProofBtn.href = url;
@@ -1779,7 +1740,13 @@
 
                         // Handle load error
                         img.onerror = function () {
-                            paymentProofContent.innerHTML = '<div class="text-danger"><i class="fas fa-exclamation-triangle fa-2x mb-2"></i><br>Failed to load image</div>';
+                            paymentProofContent.innerHTML =
+                                '<div class="text-center">' +
+                                '<p class="mb-3">Preview might not be available for this file type.</p>' +
+                                '<a href="' + url + '" target="_blank" class="btn btn-outline-primary">' +
+                                '<i class="fas fa-external-link-alt me-1"></i>Open in New Tab' +
+                                '</a>' +
+                                '</div>';
                         };
 
                         paymentProofContent.appendChild(img);
