@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeStorm Admin Dashboard</title>
+    <title>Ignite Admin Dashboard</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -930,11 +930,12 @@
                                 </div>
                                 <div class="col-lg-2 col-md-4 mb-3">
                                     <label class="form-label fw-semibold">Domain</label>
-                                    <select name="idea_theme" class="form-select">
-                                        <option value="">All Themes</option>
-                                        {% for theme in idea_themes %}
-                                        <option value="{{ theme }}" {% if filters.idea_theme == theme %}selected{% endif %}>
-                                            {{ theme }}
+                                    <select name="project_category" class="form-select">
+                                        <option value="">All Domains</option>
+                                        {% for category in project_categories %}
+                                        <option value="{{ category }}" {% if filters.project_category==category
+                                            %}selected{% endif %}>
+                                            {{ category }}
                                         </option>
                                         {% endfor %}
                                     </select>

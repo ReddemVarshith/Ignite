@@ -96,6 +96,7 @@ def dashboard_view(request):
     has_ppt_filter = request.GET.get('has_ppt', '')
     date_filter = request.GET.get('date', '')
     idea_theme_filter = request.GET.get('idea_theme', '')
+    project_category_filter = request.GET.get('project_category', '')
     selection_status_filter = request.GET.get('selection_status', '')
     
     # Base Query
@@ -122,6 +123,9 @@ def dashboard_view(request):
 
     if idea_theme_filter:
         registrations_qs = registrations_qs.filter(idea_theme=idea_theme_filter)
+
+    if project_category_filter:
+        registrations_qs = registrations_qs.filter(project_category=project_category_filter)
 
     if selection_status_filter:
         registrations_qs = registrations_qs.filter(selection_status=selection_status_filter)
@@ -252,12 +256,13 @@ def dashboard_view(request):
             'has_ppt': has_ppt_filter,
             'date': date_filter,
             'idea_theme': idea_theme_filter,
+            'project_category': project_category_filter,
             'selection_status': selection_status_filter,
         },
         'college_codes': [], # Empty list instead of removed var
         'team_sizes': ['2', '3', '4', '5', '6'],
         'idea_themes': list(WebRegistration.objects.values_list('idea_theme', flat=True).distinct()),
-        'idea_themes': [], # Themes column missing
+        'project_categories': list(WebRegistration.objects.values_list('project_category', flat=True).distinct().exclude(project_category__isnull=True).exclude(project_category='')),
         'total_registrations': total_registrations,
         'tshirt_counts': tshirt_counts,
         'food_counts': food_counts,
