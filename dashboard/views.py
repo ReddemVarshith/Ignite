@@ -336,6 +336,7 @@ def export_registrations_view(request):
                 'email': m.email,
                 'phone': m.mobile,
                 'roll': m.roll_no,
+                'food_preference': m.food_preference,
                 'is_leader': (m.name == reg.team_leader_name)
             })
 
@@ -355,7 +356,6 @@ def export_registrations_view(request):
             'Payment Status': 'pending', 
             'Team Members': "; ".join(members_list_str),
             'Registration Date': reg.created_at,
-            'Theme': 'N/A',
             'Idea Title': reg.project_title,
             'Payment Proof': ppt_path,
             'Detailed Members': detailed_members,
@@ -376,10 +376,15 @@ def export_registrations_view(request):
                     base_row[f'Member {i} Roll No'] = member['roll']
                     base_row[f'Member {i} Email'] = member['email']
                     base_row[f'Member {i} Phone'] = member['phone']
+                    base_row[f'Member {i} Food Preference'] = member['food_preference']
                     base_row[f'Member {i} Role'] = 'Team Leader' if member['is_leader'] else 'Member'
             detailed_rows.append(base_row)
             
         df = pd.DataFrame(detailed_rows)
+        
+        # Remove timezone from datetimes
+        if 'Registration Date' in df.columns:
+            df['Registration Date'] = df['Registration Date'].apply(lambda x: x.replace(tzinfo=None) if x else x)
         output = BytesIO()
         with pd.ExcelWriter(output, engine='openpyxl') as writer:
             df.to_excel(writer, index=False, sheet_name='Registrations')
